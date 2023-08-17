@@ -1,10 +1,17 @@
 import { View, Text, SafeAreaView } from 'react-native'
-import React from 'react'
+import React, {useContext} from 'react'
+import { getStylesAcc } from './AccountScreen';
+import { themeContext } from '../context/ThemeContext';
 
 export default function HomeScreen() {
+
+  const { mode, setMode } = useContext(themeContext);
+
+  const styles = getStylesAcc(mode);
+
   return (
-    <SafeAreaView>
-      <Text>Inicio</Text>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.accountText}>Inicio</Text>
     </SafeAreaView>
   )
 }

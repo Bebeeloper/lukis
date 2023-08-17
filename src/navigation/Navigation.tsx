@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Text, StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -25,6 +26,7 @@ export default function Navigation() {
     }}>
       <Tab.Navigator 
         tabBarOptions={{
+          activeTintColor: paletteColors.purple,
           style: {
             backgroundColor: mode ? paletteColors.black : paletteColors.white
           }
@@ -35,8 +37,8 @@ export default function Navigation() {
           component={HomeNavigation} 
           options={{
             tabBarLabel: 'Inicio',
-            tabBarIcon: ({color, size}) => (
-              <Icon name='fort-awesome' color={color} size={size} />
+            tabBarIcon: ({focused, color, size}) => (
+              <Icon name='fort-awesome' color={color} size={size}/>
             )
           }}
         />
@@ -44,9 +46,14 @@ export default function Navigation() {
           name='Incomes' 
           component={IncomesNavigation}
           options={{
-            tabBarLabel: 'Ingresos',
-            tabBarIcon: ({color, size}) => (
-              <Icon name='wallet' color={color} size={size} />
+            tabBarLabel: ({focused, color}) => (
+              <Text style={{
+                fontSize: 10,
+                color: focused ? paletteColors.limeLight : color
+              }}>Ingresos</Text>
+            ),
+            tabBarIcon: ({focused, color, size}) => (
+              <Icon name='wallet' color={focused ? paletteColors.lime : color} size={size} />
             )
           }}
         />
@@ -54,9 +61,15 @@ export default function Navigation() {
           name='Expenses' 
           component={ExpensesNavigation}
           options={{
-            tabBarLabel: 'Egresos',
-            tabBarIcon: ({color, size}) => (
-              <Icon name='funnel-dollar' color={color} size={size} />
+            tabBarLabel: ({focused, color}) => (
+              <Text style={{
+                fontSize: 10,
+                color: focused ? paletteColors.fireLight : color
+              }}>Egresos</Text>
+            ),
+            // tabBarLabe: paletteColors.lime,
+            tabBarIcon: ({focused, color, size}) => (
+              <Icon name='funnel-dollar' color={focused ? paletteColors.fire : color} size={size} />
             )
           }}
         />
