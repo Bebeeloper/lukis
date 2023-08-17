@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -8,11 +8,28 @@ import IncomesNavigation from './IncomesNavigation';
 import ExpensesNavigation from './ExpensesNavigation';
 import AccountNavigation from './AccountNavigation';
 
+// Import resources
+import { paletteColors } from '../colors/PaletteColors';
+import { themeContext } from '../context/ThemeContext';
+
 const Tab = createBottomTabNavigator();
 
 export default function Navigation() {
+
+  const [mode, setMode] = useState<boolean>(false);
+
   return (
-    <Tab.Navigator>
+    <themeContext.Provider value={{
+      mode,
+      setMode
+    }}>
+      <Tab.Navigator 
+        tabBarOptions={{
+          style: {
+            backgroundColor: mode ? paletteColors.black : paletteColors.white
+          }
+        }}
+      >
         <Tab.Screen 
           name='Home' 
           component={HomeNavigation} 
@@ -53,6 +70,7 @@ export default function Navigation() {
             )
           }}
         />
-    </Tab.Navigator>
+      </Tab.Navigator>
+    </themeContext.Provider>
   )
 }
