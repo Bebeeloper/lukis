@@ -19,7 +19,7 @@ export default function ExpensesNavigation() {
               title: 'Egresos',
               headerTintColor: mode ? paletteColors.white : paletteColors.black,
               headerStyle: {
-                backgroundColor: mode ? paletteColors.black : paletteColors.white
+                backgroundColor: paletteColors.fireLight
               },
               headerTitleStyle: {
                 fontWeight: 'bold'
