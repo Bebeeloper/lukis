@@ -24,6 +24,7 @@ export default function IncomesNavigation() {
               headerTitleStyle: {
                 fontWeight: 'bold',
               },
+              
           }}
         />
     </Stack.Navigator>
