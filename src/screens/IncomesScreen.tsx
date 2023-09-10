@@ -1,5 +1,5 @@
-import { View, Text, SafeAreaView, StyleSheet, TextInput } from 'react-native'
-// import {ViewOverflow} from 'react-native-view-overflow';
+import { View, Text, SafeAreaView, StyleSheet, ScrollView, Button, Alert } from 'react-native'
+import { IconButton, MD3Colors } from 'react-native-paper';
 import React, { useContext } from 'react'
 import { paletteColors } from '../colors/PaletteColors';
 import { themeContext } from '../context/ThemeContext';
@@ -16,48 +16,98 @@ export default function IncomesScreen() {
   const styles = getStylesIncomes(mode);
   return (
     <SafeAreaView style={styles.container}>
-      {/* <TextInput
+      <View style={styles.searchContainer}>
+        <Searchbar
         style={styles.searchBar}
-        placeholder='Buscar un ingreso'
-        // onChangeText={onChangeText}
-      ><Icon name='search'/></TextInput> */}
-      <Searchbar
-      style={styles.searchBar}
-        iconColor= { mode ? paletteColors.light : paletteColors.black}
-        traileringRippleColor={'white'}
-        placeholderTextColor={paletteColors.light}
-        placeholder="Busca un ingreso..."
-        onChangeText={onChangeSearch}
-        value={searchValue}
-        color={mode ? paletteColors.white : paletteColors.black}
-      />
-      <View style={styles.incomeContainer}>
-        <View style={styles.dateContainer}>
-          <Text style={styles.dateText}>10/09/2023</Text>
-        </View>
-        <View style={styles.infoPriceContainer}>
-          <View style={styles.incomeInfoContantainer}>
-            <Text style={styles.incomeName}>Pago de nómina</Text>
-            <Text style={styles.incomeText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</Text>
-          </View>
-          <View style={styles.incomePriceContainer}>
-            <Text style= {styles.incomePrice}>$ 250.000</Text>
-          </View>
-        </View>
+          iconColor= { mode ? paletteColors.light : paletteColors.black}
+          traileringRippleColor={'white'}
+          placeholderTextColor={paletteColors.light}
+          placeholder="Busca un ingreso..."
+          onChangeText={onChangeSearch}
+          value={searchValue}
+          color={mode ? paletteColors.white : paletteColors.black}
+        />
       </View>
-      <View style={styles.incomeContainer}>
-        <View style={styles.dateContainer}>
-          <Text style={styles.dateText}>10/09/2023</Text>
-        </View>
-        <View style={styles.infoPriceContainer}>
-          <View style={styles.incomeInfoContantainer}>
-            <Text style={styles.incomeName}>Pago de nómina</Text>
-            <Text style={styles.incomeText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</Text>
+      <ScrollView style={styles.scrollList}>
+        <View style={styles.incomeContainer}>
+          <View style={styles.dateContainer}>
+            <Text style={styles.dateText}>10/09/2023</Text>
           </View>
-          <View style={styles.incomePriceContainer}>
-            <Text style= {styles.incomePrice}>$ 250.000</Text>
+          <View style={styles.infoPriceContainer}>
+            <View style={styles.incomeInfoContantainer}>
+              <Text style={styles.incomeName}>Pago de nómina</Text>
+              <Text style={styles.incomeText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</Text>
+            </View>
+            <View style={styles.incomePriceContainer}>
+              <Text style= {styles.incomePrice}>$ 250.000</Text>
+            </View>
           </View>
         </View>
+        <View style={styles.incomeContainer}>
+          <View style={styles.dateContainer}>
+            <Text style={styles.dateText}>10/09/2023</Text>
+          </View>
+          <View style={styles.infoPriceContainer}>
+            <View style={styles.incomeInfoContantainer}>
+              <Text style={styles.incomeName}>Pago de nómina</Text>
+              <Text style={styles.incomeText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</Text>
+            </View>
+            <View style={styles.incomePriceContainer}>
+              <Text style= {styles.incomePrice}>$ 250.000</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.incomeContainer}>
+          <View style={styles.dateContainer}>
+            <Text style={styles.dateText}>10/09/2023</Text>
+          </View>
+          <View style={styles.infoPriceContainer}>
+            <View style={styles.incomeInfoContantainer}>
+              <Text style={styles.incomeName}>Pago de nómina</Text>
+              <Text style={styles.incomeText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</Text>
+            </View>
+            <View style={styles.incomePriceContainer}>
+              <Text style= {styles.incomePrice}>$ 250.000</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.incomeContainer}>
+          <View style={styles.dateContainer}>
+            <Text style={styles.dateText}>10/09/2023</Text>
+          </View>
+          <View style={styles.infoPriceContainer}>
+            <View style={styles.incomeInfoContantainer}>
+              <Text style={styles.incomeName}>Pago de nómina</Text>
+              <Text style={styles.incomeText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</Text>
+            </View>
+            <View style={styles.incomePriceContainer}>
+              <Text style= {styles.incomePrice}>$ 250.000</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.incomeContainer}>
+          <View style={styles.dateContainer}>
+            <Text style={styles.dateText}>10/09/2023</Text>
+          </View>
+          <View style={styles.infoPriceContainer}>
+            <View style={styles.incomeInfoContantainer}>
+              <Text style={styles.incomeName}>Pago de nómina</Text>
+              <Text style={styles.incomeText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</Text>
+            </View>
+            <View style={styles.incomePriceContainer}>
+              <Text style= {styles.incomePrice}>$ 250.000</Text>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+      <View style={styles.btnAdd}>
+        <IconButton
+          icon="plus"
+          iconColor={paletteColors.white}
+          size={40}
+          onPress={() => console.log('Pressed')}
+          // mode='contained'
+        />
       </View>
     </SafeAreaView>
   )
@@ -68,8 +118,10 @@ export const getStylesIncomes = (mode: boolean) => StyleSheet.create({
     height: '100%',
     backgroundColor: mode ? paletteColors.black : paletteColors.white
   },
-  accountText: {
-    color: mode ? paletteColors.white : paletteColors.black
+  searchContainer: {
+    width: '100%',
+    height: '15%',
+    // backgroundColor: 'blue'
   },
   searchBar: {
     marginTop: 20,
@@ -81,10 +133,15 @@ export const getStylesIncomes = (mode: boolean) => StyleSheet.create({
     borderWidth: 0.3,
     borderColor: mode ? '' : paletteColors.light,
   },
+  scrollList: {
+    width: '100%',
+    height: '55%',
+    // backgroundColor: 'red'
+  },
   incomeContainer: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: 20,
+    marginBottom: 20,
     borderRadius: 20,
     width: '90%'
   },
@@ -105,7 +162,7 @@ export const getStylesIncomes = (mode: boolean) => StyleSheet.create({
     borderBottomEndRadius: 20,
     borderBottomStartRadius: 20,
     borderColor: paletteColors.limeLight,
-    borderWidth: 1,
+    borderWidth: 0.5,
 
   },
   incomeInfoContantainer: {
@@ -127,5 +184,16 @@ export const getStylesIncomes = (mode: boolean) => StyleSheet.create({
   incomePrice: {
     color: paletteColors.limeLight,
     fontWeight: 'bold',
+  },
+  btnAdd: {
+    position: 'absolute',
+    right: 15,
+    bottom: 10,
+    backgroundColor: paletteColors.limeLight,
+    borderRadius: 50,
+    shadowColor: paletteColors.black,
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 0.3,
+    shadowRadius: 7,
   }
 });
