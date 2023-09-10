@@ -17,7 +17,7 @@ export default function IncomesNavigation() {
             component={IncomesScreen}
             options={{
               title: 'Ingresos',
-              headerTintColor: mode ? paletteColors.white : paletteColors.black,
+              headerTintColor: paletteColors.white,
               headerStyle: {
                 backgroundColor: paletteColors.limeLight
               },

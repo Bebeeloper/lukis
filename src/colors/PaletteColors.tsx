@@ -1,7 +1,7 @@
 export const paletteColors = {
     black: '#16161A',
-    // black: 'black',
     white: 'white',
+    whiteLight: '#A5A5A5',
     lime: '#CEF44E',
     limeLight: '#9DB93D',
     purple: '#7A6EED',

@@ -17,7 +17,7 @@ export default function ExpensesNavigation() {
             component={ExpensesScreen}
             options={{
               title: 'Egresos',
-              headerTintColor: mode ? paletteColors.white : paletteColors.black,
+              headerTintColor: paletteColors.white,
               headerStyle: {
                 backgroundColor: paletteColors.fireLight
               },
