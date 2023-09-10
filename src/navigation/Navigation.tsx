@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, StyleSheet } from 'react-native'
+import { Text, StyleSheet, StatusBar } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -24,6 +24,7 @@ export default function Navigation() {
       mode,
       setMode
     }}>
+      <StatusBar barStyle={!mode ? 'dark-content' : 'light-content'}/>
       <Tab.Navigator 
         tabBarOptions={{
           activeTintColor: paletteColors.purple,

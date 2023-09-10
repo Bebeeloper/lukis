@@ -1,13 +1,14 @@
-import { View, Text, SafeAreaView } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet } from 'react-native'
 import React, {useContext} from 'react'
-import { getStylesAcc } from './AccountScreen';
+// import { getStylesAcc } from './AccountScreen';
 import { themeContext } from '../context/ThemeContext';
+import { paletteColors } from '../colors/PaletteColors';
 
 export default function HomeScreen() {
 
   const { mode, setMode } = useContext(themeContext);
 
-  const styles = getStylesAcc(mode);
+  const styles = getStylesHome(mode);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -15,3 +16,13 @@ export default function HomeScreen() {
     </SafeAreaView>
   )
 }
+
+export const getStylesHome = (mode: boolean) => StyleSheet.create({
+  container: {
+    height: '100%',
+    backgroundColor: mode ? paletteColors.black : paletteColors.white
+  },
+  accountText: {
+    color: mode ? paletteColors.white : paletteColors.black
+  }
+});
