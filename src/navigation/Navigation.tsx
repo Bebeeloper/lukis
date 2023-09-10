@@ -49,11 +49,11 @@ export default function Navigation() {
             tabBarLabel: ({focused, color}) => (
               <Text style={{
                 fontSize: 10,
-                color: focused ? paletteColors.limeLight : color
+                color: focused && mode ? paletteColors.lime : focused && !mode ? paletteColors.limeLight : color
               }}>Ingresos</Text>
             ),
             tabBarIcon: ({focused, color, size}) => (
-              <Icon name='wallet' color={focused ? paletteColors.lime : color} size={size} />
+              <Icon name='wallet' color={focused && mode ? paletteColors.lime : focused && !mode ? paletteColors.limeLight : color} size={size} />
             )
           }}
         />
@@ -64,12 +64,12 @@ export default function Navigation() {
             tabBarLabel: ({focused, color}) => (
               <Text style={{
                 fontSize: 10,
-                color: focused ? paletteColors.fireLight : color
+                color: focused && mode ? paletteColors.fire : focused && !mode ? paletteColors.fireLight : color
               }}>Egresos</Text>
             ),
             // tabBarLabe: paletteColors.lime,
             tabBarIcon: ({focused, color, size}) => (
-              <Icon name='funnel-dollar' color={focused ? paletteColors.fire : color} size={size} />
+              <Icon name='funnel-dollar' color={focused && mode ? paletteColors.fire : focused && !mode ? paletteColors.fireLight : color} size={size} />
             )
           }}
         />
