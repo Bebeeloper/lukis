@@ -1,12 +1,16 @@
-import { View, Text, SafeAreaView, StyleSheet, ScrollView, Button, Alert } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, ScrollView, Button, Alert, Modal } from 'react-native'
 import { IconButton, MD3Colors } from 'react-native-paper';
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { paletteColors } from '../colors/PaletteColors';
 import { themeContext } from '../context/ThemeContext';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Searchbar } from 'react-native-paper';
+import { Pressable } from 'react-native';
+import { BlurView } from 'expo-blur';
 
 export default function IncomesScreen() {
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [searchValue, setSearchValue] = React.useState<string>('');
   const onChangeSearch = (value: string) => setSearchValue(value);
@@ -105,13 +109,80 @@ export default function IncomesScreen() {
           icon="plus"
           iconColor={paletteColors.white}
           size={40}
-          onPress={() => console.log('Pressed')}
+          onPress={() => setModalVisible(true)}
           // mode='contained'
         />
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <BlurView intensity={5} style={styles1.centeredView}>
+          <View style={styles1.modalView}>
+            <Text style={styles1.modalText}>Hello World!</Text>
+            <Pressable
+              style={[styles1.button, styles1.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles1.textStyle}>Hide Modal</Text>
+            </Pressable>
+          </View>
+        </BlurView>
+      </Modal>
     </SafeAreaView>
   )
 }
+
+const styles1 = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    position: 'absolute',
+    bottom: -20,
+    width: '100%',
+    height: '90%',
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+});
 
 export const getStylesIncomes = (mode: boolean) => StyleSheet.create({
   container: {
