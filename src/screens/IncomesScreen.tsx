@@ -1,14 +1,15 @@
-import { View, Text, SafeAreaView, StyleSheet, ScrollView, Button, Alert, Modal } from 'react-native'
-import { IconButton, MD3Colors } from 'react-native-paper';
 import React, { useContext, useState } from 'react'
+import { View, Text, SafeAreaView, StyleSheet, ScrollView, Button, Alert, Modal } from 'react-native'
+import { IconButton } from 'react-native-paper';
 import { paletteColors } from '../colors/PaletteColors';
-import { themeContext } from '../context/ThemeContext';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { incomesContext, themeContext } from '../context/ThemeContext';
 import { Searchbar } from 'react-native-paper';
 import { Pressable } from 'react-native';
 import { BlurView } from 'expo-blur';
 
 export default function IncomesScreen() {
+
+  const { incomesArray, setIncomesArray } = useContext(incomesContext);
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -18,91 +19,41 @@ export default function IncomesScreen() {
   const {mode} = useContext(themeContext);
 
   const styles = getStylesIncomes(mode);
+  const stylesModal = getStylesModal(mode);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchContainer}>
         <Searchbar
-        style={styles.searchBar}
+          style={styles.searchBar}
           iconColor= { mode ? paletteColors.light : paletteColors.black}
-          traileringRippleColor={'white'}
+          traileringRippleColor={'red'}
           placeholderTextColor={paletteColors.light}
           placeholder="Busca un ingreso..."
           onChangeText={onChangeSearch}
           value={searchValue}
-          color={mode ? paletteColors.white : paletteColors.black}
+          theme={{colors: { primary: !mode ? paletteColors.backgroundLight : paletteColors.limeLight}}}
+          inputStyle={{color: mode ? paletteColors.white : paletteColors.backgroundLight}}
         />
       </View>
       <ScrollView style={styles.scrollList}>
-        <View style={styles.incomeContainer}>
-          <View style={styles.dateContainer}>
-            <Text style={styles.dateText}>10/09/2023</Text>
-          </View>
-          <View style={styles.infoPriceContainer}>
-            <View style={styles.incomeInfoContantainer}>
-              <Text style={styles.incomeName}>Pago de nómina</Text>
-              <Text style={styles.incomeText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</Text>
+        {
+          incomesArray.incomes.map((item, i) => (
+            <View style={styles.incomeContainer} key={i}>
+              <View style={styles.dateContainer}>
+                <Text style={styles.dateText}>{item.date}</Text>
+              </View>
+              <View style={styles.infoPriceContainer}>
+                <View style={styles.incomeInfoContantainer}>
+                  <Text style={styles.incomeName}>{item.name}</Text>
+                  <Text style={styles.incomeText}>{item.description}</Text>
+                </View>
+                <View style={styles.incomePriceContainer}>
+                  <Text style= {styles.incomePrice}>{`$ ${item.price}`}</Text>
+                </View>
+              </View>
             </View>
-            <View style={styles.incomePriceContainer}>
-              <Text style= {styles.incomePrice}>$ 250.000</Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.incomeContainer}>
-          <View style={styles.dateContainer}>
-            <Text style={styles.dateText}>10/09/2023</Text>
-          </View>
-          <View style={styles.infoPriceContainer}>
-            <View style={styles.incomeInfoContantainer}>
-              <Text style={styles.incomeName}>Pago de nómina</Text>
-              <Text style={styles.incomeText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</Text>
-            </View>
-            <View style={styles.incomePriceContainer}>
-              <Text style= {styles.incomePrice}>$ 250.000</Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.incomeContainer}>
-          <View style={styles.dateContainer}>
-            <Text style={styles.dateText}>10/09/2023</Text>
-          </View>
-          <View style={styles.infoPriceContainer}>
-            <View style={styles.incomeInfoContantainer}>
-              <Text style={styles.incomeName}>Pago de nómina</Text>
-              <Text style={styles.incomeText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</Text>
-            </View>
-            <View style={styles.incomePriceContainer}>
-              <Text style= {styles.incomePrice}>$ 250.000</Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.incomeContainer}>
-          <View style={styles.dateContainer}>
-            <Text style={styles.dateText}>10/09/2023</Text>
-          </View>
-          <View style={styles.infoPriceContainer}>
-            <View style={styles.incomeInfoContantainer}>
-              <Text style={styles.incomeName}>Pago de nómina</Text>
-              <Text style={styles.incomeText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</Text>
-            </View>
-            <View style={styles.incomePriceContainer}>
-              <Text style= {styles.incomePrice}>$ 250.000</Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.incomeContainer}>
-          <View style={styles.dateContainer}>
-            <Text style={styles.dateText}>10/09/2023</Text>
-          </View>
-          <View style={styles.infoPriceContainer}>
-            <View style={styles.incomeInfoContantainer}>
-              <Text style={styles.incomeName}>Pago de nómina</Text>
-              <Text style={styles.incomeText}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</Text>
-            </View>
-            <View style={styles.incomePriceContainer}>
-              <Text style= {styles.incomePrice}>$ 250.000</Text>
-            </View>
-          </View>
-        </View>
+          ))
+        }
       </ScrollView>
       <View style={styles.btnAdd}>
         <IconButton
@@ -110,7 +61,6 @@ export default function IncomesScreen() {
           iconColor={paletteColors.white}
           size={40}
           onPress={() => setModalVisible(true)}
-          // mode='contained'
         />
       </View>
       <Modal
@@ -121,13 +71,13 @@ export default function IncomesScreen() {
           Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
-        <BlurView intensity={5} style={styles1.centeredView}>
-          <View style={styles1.modalView}>
-            <Text style={styles1.modalText}>Hello World!</Text>
+        <BlurView intensity={5} style={stylesModal.centeredView}>
+          <View style={stylesModal.modalView}>
+            <Text style={stylesModal.modalText}>Hello World!</Text>
             <Pressable
-              style={[styles1.button, styles1.buttonClose]}
+              style={[stylesModal.button, stylesModal.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles1.textStyle}>Hide Modal</Text>
+              <Text style={stylesModal.textStyle}>Hide Modal</Text>
             </Pressable>
           </View>
         </BlurView>
@@ -136,7 +86,7 @@ export default function IncomesScreen() {
   )
 }
 
-const styles1 = StyleSheet.create({
+const getStylesModal = (mode: boolean) => StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: 'center',
@@ -149,7 +99,7 @@ const styles1 = StyleSheet.create({
     width: '100%',
     height: '90%',
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: paletteColors.limeLight,
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
@@ -203,6 +153,7 @@ export const getStylesIncomes = (mode: boolean) => StyleSheet.create({
     backgroundColor: mode ? paletteColors.backgroundLight : '',
     borderWidth: 0.3,
     borderColor: mode ? '' : paletteColors.light,
+    // color: 'red !important'
   },
   scrollList: {
     width: '100%',
