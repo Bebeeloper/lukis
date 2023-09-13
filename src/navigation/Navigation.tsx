@@ -26,21 +26,24 @@ export default function Navigation() {
       name: 'Pago de nómina',
       description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum',
       price: 2500000,
-      date: '02/07/09'
+      date: '02/07/09',
+      category: 'nomina'
     },
     {
       id: 2,
       name: 'Ganancia desarrollo app',
       description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
       price: 1500000,
-      date: '02/07/09'
+      date: '02/07/09',
+      category: 'freelance'
     },
     {
       id: 3,
       name: 'Mantenimiento computadores',
       description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
       price: 1500000,
-      date: '02/07/09'
+      date: '02/07/09',
+      category: 'tools'
     }
   ]});
 

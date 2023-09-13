@@ -21,7 +21,8 @@ export default function IncomesNavigation() {
               title: 'Ingresos',
               headerTintColor: paletteColors.white,
               headerStyle: {
-                backgroundColor: paletteColors.limeLight
+                backgroundColor: !mode ? paletteColors.limeLight : paletteColors.limeDark
+                // backgroundColor: paletteColors.limeLight
               },
               headerTitleStyle: {
                 fontWeight: 'bold',

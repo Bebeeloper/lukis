@@ -9,7 +9,8 @@ export type incomesType = {
         name: string,
         description: string,
         price: number,
-        date: string
+        date: string,
+        category: string
     }[]
 }
 

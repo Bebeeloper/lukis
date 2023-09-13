@@ -6,6 +6,13 @@ import { incomesContext, themeContext } from '../context/ThemeContext';
 import { Searchbar } from 'react-native-paper';
 import { Pressable } from 'react-native';
 import { BlurView } from 'expo-blur';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
+const categoryIcons: any = {
+  nomina: 'file-invoice-dollar',
+  freelance: 'laptop-house',
+  tools: 'tools'
+}
 
 export default function IncomesScreen() {
 
@@ -20,13 +27,31 @@ export default function IncomesScreen() {
 
   const styles = getStylesIncomes(mode);
   const stylesModal = getStylesModal(mode);
+
+  // const numberFormat = (value: number) =>
+  // new Intl.NumberFormat('es-Es', {
+  //   style: 'currency',
+  //   currency: 'COP',
+  //   maximumFractionDigits: 2,
+  // }).format(value);
+
+  const numberFormat = (num: number) => {
+    const numericValue = Number(num); // Convert the value to number
+    if (isNaN(numericValue)) {
+        // If not a valid number, return an empty string or the original value
+        return "";
+    } else {
+        return "$ " + numericValue.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"); // And this would be the function
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchContainer}>
         <Searchbar
           style={styles.searchBar}
           iconColor= { mode ? paletteColors.light : paletteColors.black}
-          traileringRippleColor={'red'}
+          // traileringRippleColor={'red'}
           placeholderTextColor={paletteColors.light}
           placeholder="Busca un ingreso..."
           onChangeText={onChangeSearch}
@@ -40,7 +65,7 @@ export default function IncomesScreen() {
           incomesArray.incomes.map((item, i) => (
             <View style={styles.incomeContainer} key={i}>
               <View style={styles.dateContainer}>
-                <Text style={styles.dateText}>{item.date}</Text>
+                <Text style={styles.dateText}>{`Fecha: ${item.date}`}</Text>
               </View>
               <View style={styles.infoPriceContainer}>
                 <View style={styles.incomeInfoContantainer}>
@@ -48,7 +73,8 @@ export default function IncomesScreen() {
                   <Text style={styles.incomeText}>{item.description}</Text>
                 </View>
                 <View style={styles.incomePriceContainer}>
-                  <Text style= {styles.incomePrice}>{`$ ${item.price}`}</Text>
+                  <Text style= {styles.incomePrice}>{`${numberFormat(item.price)}`}</Text>
+                  <Icon style={styles.incomeIcon} name={categoryIcons[item.category]} size={35} color={mode ? paletteColors.lime : paletteColors.limeLight}/>
                 </View>
               </View>
             </View>
@@ -171,7 +197,8 @@ export const getStylesIncomes = (mode: boolean) => StyleSheet.create({
     padding: 10,
     borderTopEndRadius: 20,
     borderTopStartRadius: 20,
-    backgroundColor: paletteColors.limeLight,
+    backgroundColor: !mode ? paletteColors.limeLight : paletteColors.limeDark,
+    // backgroundColor: paletteColors.limeLight,
   },
   dateText: {
     textAlign: 'center',
@@ -192,20 +219,29 @@ export const getStylesIncomes = (mode: boolean) => StyleSheet.create({
   },
   incomeName: {
     marginBottom: 10,
-    color: paletteColors.limeLight,
+    color: !mode ? paletteColors.limeLight : paletteColors.lime,
+    // color: paletteColors.limeLightdlimeDark,
     fontWeight: 'bold',
   },
   incomeText: {
-    color: mode ? paletteColors.whiteLight : paletteColors.black
+    color: mode ? paletteColors.white : paletteColors.black
   },
   incomePriceContainer: {
     width: '30%',
-    flexDirection: 'row',
-    justifyContent: 'flex-end'
+    flexDirection: 'column',
+    // justifyContent: 'flex-end'
   },
   incomePrice: {
-    color: paletteColors.limeLight,
+    color: !mode ? paletteColors.limeLight : paletteColors.lime,
+    // color: paletteColors.limeLight,
     fontWeight: 'bold',
+    fontSize: 12
+  },
+  incomeIcon: {
+    marginLeft: 'auto', 
+    marginRight: 'auto', 
+    marginTop: 'auto', 
+    marginBottom: 'auto'
   },
   btnAdd: {
     position: 'absolute',
