@@ -1,12 +1,14 @@
 import React, { useContext, useState } from 'react'
-import { View, Text, SafeAreaView, StyleSheet, ScrollView, Button, Alert, Modal } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, ScrollView, Alert, Modal } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { paletteColors } from '../colors/PaletteColors';
 import { incomesContext, themeContext } from '../context/ThemeContext';
 import { Searchbar } from 'react-native-paper';
-import { Pressable } from 'react-native';
 import { BlurView } from 'expo-blur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { TextInput } from 'react-native-paper';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import RNDateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 
 const categoryIcons: any = {
   nomina: 'file-invoice-dollar',
@@ -16,8 +18,37 @@ const categoryIcons: any = {
 
 export default function IncomesScreen() {
 
+  //////////////////////////////////////////////////////////////////////
+
+  const [date, setDate] = useState(new Date());
+  const [mode1, setMode1] = useState<string>('date');
+  const [show, setShow] = useState(false);
+
+  const onChange = (event: any, selectedDate: any) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode: any) => {
+    setShow(true);
+    setMode1(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const showTimepicker = () => {
+    showMode('time');
+  };
+
+
+  //////////////////////////////////////////////////////////////////////
+
   const { incomesArray, setIncomesArray } = useContext(incomesContext);
 
+  const [priceInput, setPriceInput] = useState<string>();
   const [modalVisible, setModalVisible] = useState(false);
 
   const [searchValue, setSearchValue] = React.useState<string>('');
@@ -27,13 +58,6 @@ export default function IncomesScreen() {
 
   const styles = getStylesIncomes(mode);
   const stylesModal = getStylesModal(mode);
-
-  // const numberFormat = (value: number) =>
-  // new Intl.NumberFormat('es-Es', {
-  //   style: 'currency',
-  //   currency: 'COP',
-  //   maximumFractionDigits: 2,
-  // }).format(value);
 
   const numberFormat = (num: number) => {
     const numericValue = Number(num); // Convert the value to number
@@ -99,12 +123,36 @@ export default function IncomesScreen() {
         }}>
         <BlurView intensity={5} style={stylesModal.centeredView}>
           <View style={stylesModal.modalView}>
-            <Text style={stylesModal.modalText}>Hello World!</Text>
+            <ScrollView style={{width: '100%', paddingLeft: 35, paddingRight: 35, flexDirection: 'column'}}
+              onScrollEndDrag={() => setModalVisible(!modalVisible)}
+            >
+              <Icon style={{textAlign: 'center', top: -35}} name={'window-minimize'} size={50} color={paletteColors.whiteLight}/>
+              <Text style={stylesModal.modalText}>Nuevo ingreso</Text>
+              <TextInput
+                style={{backgroundColor: paletteColors.white, borderRadius: 50}}
+                label="Precio"
+                mode={'outlined'}
+                value={priceInput}
+                onChangeText={text => setPriceInput(priceInput)}
+                left={<TextInput.Icon icon="currency-usd" />}
+              />
+              <RNDateTimePicker
+                style={{marginTop: 20, height: 50, textAlign: 'center', borderWidth: 1, borderRadius: 5}}
+                testID="dateTimePicker"
+                value={date}
+                mode={mode1}
+                is24Hour={true}
+                onChange={onChange}
+              />
+            </ScrollView>
+            {/* <Text style={stylesModal.modalText}>Hello World!</Text>
             <Pressable
               style={[stylesModal.button, stylesModal.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}>
               <Text style={stylesModal.textStyle}>Hide Modal</Text>
-            </Pressable>
+            </Pressable> */}
+            
+              
           </View>
         </BlurView>
       </Modal>
@@ -125,9 +173,9 @@ const getStylesModal = (mode: boolean) => StyleSheet.create({
     width: '100%',
     height: '90%',
     margin: 20,
-    backgroundColor: paletteColors.limeLight,
+    backgroundColor: paletteColors.white,
     borderRadius: 20,
-    padding: 35,
+    // padding: 35,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -137,6 +185,7 @@ const getStylesModal = (mode: boolean) => StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    // backgroundColor: 'yellow'
   },
   button: {
     borderRadius: 20,

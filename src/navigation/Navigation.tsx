@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Text, StyleSheet, StatusBar, Button } from 'react-native'
+import { Text, StyleSheet, StatusBar, Button, Platform } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome5';
+
 
 // Import Navigations components
 import HomeNavigation from './HomeNavigation';
@@ -44,6 +45,22 @@ export default function Navigation() {
       price: 1500000,
       date: '02/07/09',
       category: 'tools'
+    },
+    {
+      id: 2,
+      name: 'Ganancia desarrollo app',
+      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+      price: 1500000,
+      date: '02/07/09',
+      category: 'freelance'
+    },
+    {
+      id: 3,
+      name: 'Mantenimiento computadores',
+      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+      price: 1500000,
+      date: '02/07/09',
+      category: 'tools'
     }
   ]});
 
@@ -56,7 +73,8 @@ export default function Navigation() {
         incomesArray, 
         setIncomesArray
       }}>
-        <StatusBar barStyle={(tabIndex === 1 || tabIndex === 2) || mode ? 'light-content' : 'dark-content'}/>
+        <StatusBar barStyle={(tabIndex === 1 || tabIndex === 2) || mode && Platform.OS != 'android' ? 'light-content' : 'dark-content'}/>
+        {/* <StatusBar barStyle={Platform.OS === 'android' ? 'light-content' : 'dark-content'}/> */}
         <Tab.Navigator 
           tabBarOptions={{
             activeTintColor: paletteColors.purple,
