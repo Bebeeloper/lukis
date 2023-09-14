@@ -17,45 +17,6 @@ const categoryIcons: any = {
   tools: 'tools'
 }
 
-let alaMadre = {icons: [
-  {
-    name: 'account-cash-outline',
-    color: paletteColors.backgroundLight
-  },
-  {
-    name: 'desktop-mac-dashboard',
-    color: paletteColors.backgroundLight
-  },
-  {
-    name: 'tools',
-    color: paletteColors.backgroundLight
-  },
-  {
-    name: 'account-cash-outline',
-    color: paletteColors.backgroundLight
-  },
-  {
-    name: 'desktop-mac-dashboard',
-    color: paletteColors.backgroundLight
-  },
-  {
-    name: 'tools',
-    color: paletteColors.backgroundLight
-  },
-  {
-    name: 'account-cash-outline',
-    color: paletteColors.backgroundLight
-  },
-  {
-    name: 'desktop-mac-dashboard',
-    color: paletteColors.backgroundLight
-  },
-  {
-    name: 'tools',
-    color: paletteColors.backgroundLight
-  }
-]}
-
 export default function IncomesScreen() {
 
   //////////////////////////////////////////////////////////////////////
@@ -91,39 +52,48 @@ export default function IncomesScreen() {
   const [iconCategoryArray, setIconCategoryArray] = useState<iconsType>({icons: [
     {
       name: 'account-cash-outline',
-      color: paletteColors.backgroundLight
+      color: paletteColors.whiteLight,
+      text: 'Nomina'
     },
     {
       name: 'desktop-mac-dashboard',
-      color: paletteColors.backgroundLight
+      color: paletteColors.whiteLight,
+      text: 'Freelance'
     },
     {
       name: 'tools',
-      color: paletteColors.backgroundLight
+      color: paletteColors.whiteLight,  
+      text: 'Mantenimiento'
     },
     {
       name: 'account-cash-outline',
-      color: paletteColors.backgroundLight
+      color: paletteColors.whiteLight,
+      text: 'Nomina'
     },
     {
       name: 'desktop-mac-dashboard',
-      color: paletteColors.backgroundLight
+      color: paletteColors.whiteLight,
+      text: 'Freelance'
     },
     {
       name: 'tools',
-      color: paletteColors.backgroundLight
+      color: paletteColors.whiteLight,
+      text: 'Mantenimiento'
     },
     {
       name: 'account-cash-outline',
-      color: paletteColors.backgroundLight
+      color: paletteColors.whiteLight,
+      text: 'Nomina'
     },
     {
       name: 'desktop-mac-dashboard',
-      color: paletteColors.backgroundLight
+      color: paletteColors.whiteLight,
+      text: 'Freelance'
     },
     {
       name: 'tools',
-      color: paletteColors.backgroundLight
+      color: paletteColors.whiteLight,
+      text: 'Mantenimiento'
     }
   ]});
   
@@ -151,7 +121,7 @@ export default function IncomesScreen() {
 
   const selecticonCategory = (index: number) => {
     
-    setIndexIcon(index);
+    // setIndexIcon(index);
     
     let arrayIconJson = iconCategoryArray;
 
@@ -159,10 +129,10 @@ export default function IncomesScreen() {
       if (index === i) {
         arrayIconJson.icons[index].color = paletteColors.limeLight
       }else{
-        arrayIconJson.icons[i].color = paletteColors.backgroundLight
+        arrayIconJson.icons[i].color = paletteColors.whiteLight
       }
     }      
-    setIconCategoryArray(arrayIconJson);
+    setIconCategoryArray({...arrayIconJson});
     
   }
 
@@ -220,13 +190,14 @@ export default function IncomesScreen() {
         }}>
         <BlurView intensity={5} style={stylesModal.centeredView}>
           <View style={stylesModal.modalView}>
-            <ScrollView style={{width: '100%', paddingLeft: 35, paddingRight: 35, flexDirection: 'column'}}
+            <ScrollView style={{zIndex: 1, position: 'absolute', height: '10%', width: '100%'}}
               onScrollEndDrag={() => setModalVisible(!modalVisible)}
             >
               <Icon style={{textAlign: 'center', top: -35}} name={'window-minimize'} size={50} color={paletteColors.whiteLight}/>
+            </ScrollView>
+            <View style={{paddingTop: 50, paddingHorizontal: 30}}>
               <Text style={stylesModal.modalText}>Nuevo ingreso</Text>
               <TextInput
-                
                 style={{backgroundColor: paletteColors.white, borderRadius: 50}}
                 label="Precio"
                 mode={'outlined'}
@@ -242,34 +213,31 @@ export default function IncomesScreen() {
                 is24Hour={true}
                 onChange={onChange}
               />
-              <Text style={{marginTop: 20}}>{'Desliza horizontal para más iconos -->'}</Text>
+              <Text style={{marginTop: 20}}>{'Categorías'}</Text>
               <ScrollView
-                // style={{padding: 20}}
+                style={{paddingTop: 10}}
                 horizontal={true} 
                 showsHorizontalScrollIndicator={false}
-                snapToOffsets={[200, 300]}
               >
                 {
                   iconCategoryArray.icons.map((itemIcon, i) => (
-                    <IconButton
-                      key={i + 1}
-                      icon={itemIcon.name}
-                      iconColor={itemIcon.color}
-                      size={50}
-                      onPress={() => selecticonCategory(i)}
-                    />
+                    <View style={{padding: 6, backgroundColor: paletteColors.white, margin: 5, borderRadius: 10, flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', shadowColor: '#171717',
+                    shadowOffset: {width: 0, height: 0},
+                    shadowOpacity: 0.1,
+                    shadowRadius: 3}} key={i + 1} >
+                      <IconButton
+                        style={{padding: 0, margin: 2}}
+                        icon={itemIcon.name}
+                        iconColor={itemIcon.color}
+                        size={50}
+                        onPress={() => selecticonCategory(i)}
+                      />
+                      <Text style={{fontSize: 10}}>{itemIcon.text}</Text>
+                    </View>
                   ))
                 }
-              </ScrollView>
-            </ScrollView>
-            {/* <Text style={stylesModal.modalText}>Hello World!</Text>
-            <Pressable
-              style={[stylesModal.button, stylesModal.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={stylesModal.textStyle}>Hide Modal</Text>
-            </Pressable> */}
-            
-              
+              </ScrollView>              
+            </View>
           </View>
         </BlurView>
       </Modal>
@@ -293,7 +261,7 @@ const getStylesModal = (mode: boolean) => StyleSheet.create({
     backgroundColor: paletteColors.white,
     borderRadius: 20,
     // padding: 35,
-    alignItems: 'center',
+    // alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

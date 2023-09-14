@@ -17,7 +17,8 @@ export type incomesType = {
 export type iconsType = {
     icons: {
         name: string,
-        color: string
+        color: string,
+        text: string
     }[]
 }
 
