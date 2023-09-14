@@ -14,7 +14,19 @@ export type incomesType = {
     }[]
 }
 
+export type iconsType = {
+    icons: {
+        name: string,
+        color: string
+    }[]
+}
+
 export type incomesArrayType = {
     incomesArray: incomesType
     setIncomesArray: React.Dispatch<React.SetStateAction<incomesType>>
+}
+
+export type iconsArrayType = {
+    iconCategoryArray: iconsType, 
+    setIconCategoryArray: React.Dispatch<React.SetStateAction<iconsType>> 
 }

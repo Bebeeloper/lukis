@@ -1,14 +1,15 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { View, Text, SafeAreaView, StyleSheet, ScrollView, Alert, Modal } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { paletteColors } from '../colors/PaletteColors';
-import { incomesContext, themeContext } from '../context/ThemeContext';
+import { iconArrayContext, incomesContext, themeContext } from '../context/ThemeContext';
 import { Searchbar } from 'react-native-paper';
 import { BlurView } from 'expo-blur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { TextInput } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RNDateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import { iconsType } from '../types/Types';
 
 const categoryIcons: any = {
   nomina: 'file-invoice-dollar',
@@ -16,12 +17,51 @@ const categoryIcons: any = {
   tools: 'tools'
 }
 
+let alaMadre = {icons: [
+  {
+    name: 'account-cash-outline',
+    color: paletteColors.backgroundLight
+  },
+  {
+    name: 'desktop-mac-dashboard',
+    color: paletteColors.backgroundLight
+  },
+  {
+    name: 'tools',
+    color: paletteColors.backgroundLight
+  },
+  {
+    name: 'account-cash-outline',
+    color: paletteColors.backgroundLight
+  },
+  {
+    name: 'desktop-mac-dashboard',
+    color: paletteColors.backgroundLight
+  },
+  {
+    name: 'tools',
+    color: paletteColors.backgroundLight
+  },
+  {
+    name: 'account-cash-outline',
+    color: paletteColors.backgroundLight
+  },
+  {
+    name: 'desktop-mac-dashboard',
+    color: paletteColors.backgroundLight
+  },
+  {
+    name: 'tools',
+    color: paletteColors.backgroundLight
+  }
+]}
+
 export default function IncomesScreen() {
 
   //////////////////////////////////////////////////////////////////////
 
   const [date, setDate] = useState(new Date());
-  const [mode1, setMode1] = useState<string>('date');
+  const [mode1, setMode1] = useState<any>('date');
   const [show, setShow] = useState(false);
 
   const onChange = (event: any, selectedDate: any) => {
@@ -47,7 +87,47 @@ export default function IncomesScreen() {
   //////////////////////////////////////////////////////////////////////
 
   const { incomesArray, setIncomesArray } = useContext(incomesContext);
-
+  // const { iconCategoryArray, setIconCategoryArray } = useContext(iconArrayContext);
+  const [iconCategoryArray, setIconCategoryArray] = useState<iconsType>({icons: [
+    {
+      name: 'account-cash-outline',
+      color: paletteColors.backgroundLight
+    },
+    {
+      name: 'desktop-mac-dashboard',
+      color: paletteColors.backgroundLight
+    },
+    {
+      name: 'tools',
+      color: paletteColors.backgroundLight
+    },
+    {
+      name: 'account-cash-outline',
+      color: paletteColors.backgroundLight
+    },
+    {
+      name: 'desktop-mac-dashboard',
+      color: paletteColors.backgroundLight
+    },
+    {
+      name: 'tools',
+      color: paletteColors.backgroundLight
+    },
+    {
+      name: 'account-cash-outline',
+      color: paletteColors.backgroundLight
+    },
+    {
+      name: 'desktop-mac-dashboard',
+      color: paletteColors.backgroundLight
+    },
+    {
+      name: 'tools',
+      color: paletteColors.backgroundLight
+    }
+  ]});
+  
+  const [ indexIcon, setIndexIcon ] = useState<number>();
   const [priceInput, setPriceInput] = useState<string>();
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -67,6 +147,23 @@ export default function IncomesScreen() {
     } else {
         return "$ " + numericValue.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"); // And this would be the function
     }
+  }  
+
+  const selecticonCategory = (index: number) => {
+    
+    setIndexIcon(index);
+    
+    let arrayIconJson = iconCategoryArray;
+
+    for (let i = 0; i < arrayIconJson.icons.length; i++) {
+      if (index === i) {
+        arrayIconJson.icons[index].color = paletteColors.limeLight
+      }else{
+        arrayIconJson.icons[i].color = paletteColors.backgroundLight
+      }
+    }      
+    setIconCategoryArray(arrayIconJson);
+    
   }
 
   return (
@@ -87,7 +184,7 @@ export default function IncomesScreen() {
       <ScrollView style={styles.scrollList}>
         {
           incomesArray.incomes.map((item, i) => (
-            <View style={styles.incomeContainer} key={i}>
+            <View style={styles.incomeContainer} key={i + 1}>
               <View style={styles.dateContainer}>
                 <Text style={styles.dateText}>{`Fecha: ${item.date}`}</Text>
               </View>
@@ -129,6 +226,7 @@ export default function IncomesScreen() {
               <Icon style={{textAlign: 'center', top: -35}} name={'window-minimize'} size={50} color={paletteColors.whiteLight}/>
               <Text style={stylesModal.modalText}>Nuevo ingreso</Text>
               <TextInput
+                
                 style={{backgroundColor: paletteColors.white, borderRadius: 50}}
                 label="Precio"
                 mode={'outlined'}
@@ -136,14 +234,33 @@ export default function IncomesScreen() {
                 onChangeText={text => setPriceInput(priceInput)}
                 left={<TextInput.Icon icon="currency-usd" />}
               />
-              <RNDateTimePicker
-                style={{marginTop: 20, height: 50, textAlign: 'center', borderWidth: 1, borderRadius: 5}}
+              <DateTimePicker
+                style={{marginTop: 20, height: 50, borderWidth: 1, borderRadius: 5}}
                 testID="dateTimePicker"
                 value={date}
                 mode={mode1}
                 is24Hour={true}
                 onChange={onChange}
               />
+              <Text style={{marginTop: 20}}>{'Desliza horizontal para más iconos -->'}</Text>
+              <ScrollView
+                // style={{padding: 20}}
+                horizontal={true} 
+                showsHorizontalScrollIndicator={false}
+                snapToOffsets={[200, 300]}
+              >
+                {
+                  iconCategoryArray.icons.map((itemIcon, i) => (
+                    <IconButton
+                      key={i + 1}
+                      icon={itemIcon.name}
+                      iconColor={itemIcon.color}
+                      size={50}
+                      onPress={() => selecticonCategory(i)}
+                    />
+                  ))
+                }
+              </ScrollView>
             </ScrollView>
             {/* <Text style={stylesModal.modalText}>Hello World!</Text>
             <Pressable
