@@ -18,7 +18,8 @@ export type iconsType = {
     icons: {
         name: string,
         color: string,
-        text: string
+        text: string,
+        background: string
     }[]
 }
 

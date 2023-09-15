@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { View, Text, SafeAreaView, StyleSheet, ScrollView, Alert, Modal } from 'react-native';
-import { IconButton } from 'react-native-paper';
+import { Button, IconButton } from 'react-native-paper';
 import { paletteColors } from '../colors/PaletteColors';
 import { iconArrayContext, incomesContext, themeContext } from '../context/ThemeContext';
 import { Searchbar } from 'react-native-paper';
@@ -53,47 +53,56 @@ export default function IncomesScreen() {
     {
       name: 'account-cash-outline',
       color: paletteColors.whiteLight,
-      text: 'Nomina'
+      text: 'Nomina',
+      background: paletteColors.white
     },
     {
       name: 'desktop-mac-dashboard',
       color: paletteColors.whiteLight,
-      text: 'Freelance'
+      text: 'Freelance',
+      background: paletteColors.white
     },
     {
       name: 'tools',
       color: paletteColors.whiteLight,  
-      text: 'Mantenimiento'
+      text: 'Mantenimiento',
+      background: paletteColors.white
     },
     {
       name: 'account-cash-outline',
       color: paletteColors.whiteLight,
-      text: 'Nomina'
+      text: 'Nomina',
+      background: paletteColors.white
     },
     {
       name: 'desktop-mac-dashboard',
       color: paletteColors.whiteLight,
-      text: 'Freelance'
+      text: 'Freelance',
+      background: paletteColors.white
     },
     {
       name: 'tools',
       color: paletteColors.whiteLight,
-      text: 'Mantenimiento'
+      text: 'Mantenimiento',
+      background: paletteColors.white
     },
     {
       name: 'account-cash-outline',
       color: paletteColors.whiteLight,
-      text: 'Nomina'
+      text: 'Nomina',
+      background: paletteColors.white
     },
     {
       name: 'desktop-mac-dashboard',
       color: paletteColors.whiteLight,
-      text: 'Freelance'
+      text: 'Freelance',
+      background: paletteColors.white
     },
     {
       name: 'tools',
       color: paletteColors.whiteLight,
-      text: 'Mantenimiento'
+      text: 'Mantenimiento',
+      background: paletteColors.white
     }
   ]});
   
@@ -127,9 +136,11 @@ export default function IncomesScreen() {
 
     for (let i = 0; i < arrayIconJson.icons.length; i++) {
       if (index === i) {
-        arrayIconJson.icons[index].color = paletteColors.limeLight
+        arrayIconJson.icons[index].color = paletteColors.white
+        arrayIconJson.icons[index].background = paletteColors.limeLight
       }else{
         arrayIconJson.icons[i].color = paletteColors.whiteLight
+        arrayIconJson.icons[i].background = paletteColors.white
       }
     }      
     setIconCategoryArray({...arrayIconJson});
@@ -205,14 +216,31 @@ export default function IncomesScreen() {
                 onChangeText={text => setPriceInput(priceInput)}
                 left={<TextInput.Icon icon="currency-usd" />}
               />
-              <DateTimePicker
-                style={{marginTop: 20, height: 50, borderWidth: 1, borderRadius: 5}}
-                testID="dateTimePicker"
-                value={date}
-                mode={mode1}
-                is24Hour={true}
-                onChange={onChange}
+              <TextInput
+                style={{marginTop: 20, backgroundColor: paletteColors.white, borderRadius: 50, maxHeight: 100}}
+                label="Descripción"
+                mode={'outlined'}
+                value={priceInput}
+                onChangeText={text => setPriceInput(priceInput)}
+                left={<TextInput.Icon icon="comment-processing-outline" />}
+                multiline={true}
+                numberOfLines={3}
               />
+              <View style={{marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                <Icon style={{marginLeft: 15}} name={'calendar-alt'} size={25}/>
+                <DateTimePicker
+                  style={{zIndex: 2}}
+                  testID="dateTimePicker"
+                  value={date}
+                  mode={mode1}
+                  is24Hour={true}
+                  onChange={onChange}
+                  themeVariant={mode ? 'dark' : 'light'}
+                  accentColor={mode ? paletteColors.limeDark : paletteColors.limeLight}
+                  negativeButton={{label: 'Cancel', textColor: 'red'}}
+                  // placeholderText="select date"
+                />
+              </View>
               <Text style={{marginTop: 20}}>{'Categorías'}</Text>
               <ScrollView
                 style={{paddingTop: 10}}
@@ -221,10 +249,10 @@ export default function IncomesScreen() {
               >
                 {
                   iconCategoryArray.icons.map((itemIcon, i) => (
-                    <View style={{padding: 6, backgroundColor: paletteColors.white, margin: 5, borderRadius: 10, flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', shadowColor: '#171717',
+                    <View style={{padding: 6, backgroundColor: itemIcon.background, margin: 5, borderRadius: 10, flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center', shadowColor: '#171717',
                     shadowOffset: {width: 0, height: 0},
-                    shadowOpacity: 0.1,
-                    shadowRadius: 3}} key={i + 1} >
+                    shadowOpacity: 0.2,
+                    shadowRadius: 2}} key={i + 1} >
                       <IconButton
                         style={{padding: 0, margin: 2}}
                         icon={itemIcon.name}
@@ -232,11 +260,22 @@ export default function IncomesScreen() {
                         size={50}
                         onPress={() => selecticonCategory(i)}
                       />
-                      <Text style={{fontSize: 10}}>{itemIcon.text}</Text>
+                      <Text style={{fontSize: 10, color: itemIcon.color}}>{itemIcon.text}</Text>
                     </View>
                   ))
                 }
-              </ScrollView>              
+              </ScrollView>  
+              {/* <Button style={{}} title='Guardar' onPress={() => setModalVisible(!modalVisible)}/> */}
+              <Button 
+                style={{marginTop: 20}}
+                buttonColor={paletteColors.limeLight} 
+                // loading={true}
+                icon="content-save-outline" 
+                mode="contained" 
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                Guardar
+              </Button>
             </View>
           </View>
         </BlurView>
@@ -258,7 +297,7 @@ const getStylesModal = (mode: boolean) => StyleSheet.create({
     width: '100%',
     height: '90%',
     margin: 20,
-    backgroundColor: paletteColors.white,
+    backgroundColor: mode ?paletteColors.limeDark : paletteColors.white,
     borderRadius: 20,
     // padding: 35,
     // alignItems: 'center',
