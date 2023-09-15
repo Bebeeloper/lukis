@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
-import { Text, StyleSheet, StatusBar, Button, Platform } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { Text, StatusBar, Platform } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
 
 // Import Navigations components
 import HomeNavigation from './HomeNavigation';
@@ -12,8 +11,9 @@ import AccountNavigation from './AccountNavigation';
 
 // Import resources
 import { paletteColors } from '../colors/PaletteColors';
-import { themeContext, incomesContext, iconArrayContext } from '../context/ThemeContext';
-import { iconsType, incomesType } from '../types/Types';
+import { themeContext, incomesContext } from '../context/ThemeContext';
+import { incomesType } from '../types/Types';
+import { initDataBase } from '../utils/db';
 
 const Tab = createBottomTabNavigator();
 
@@ -64,44 +64,12 @@ export default function Navigation() {
     }
   ]});
 
-  // const [iconCategoryArray, setIconCategoryArray] = useState<iconsType>({icons: [
-  //   {
-  //     name: 'account-cash-outline',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'desktop-mac-dashboard',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'tools',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'account-cash-outline',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'desktop-mac-dashboard',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'tools',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'account-cash-outline',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'desktop-mac-dashboard',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'tools',
-  //     color: paletteColors.backgroundLight
-  //   }
-  // ]});
+  useEffect(() => {
+    const init = async() => {
+      await initDataBase();
+    }
+    init();
+  }, []);
 
   return (
     <themeContext.Provider value={{
@@ -112,14 +80,7 @@ export default function Navigation() {
         incomesArray, 
         setIncomesArray
       }}>
-        {/* <iconArrayContext.Provider
-          value={{
-            iconCategoryArray, 
-            setIconCategoryArray
-          }}
-        > */}
           <StatusBar barStyle={(tabIndex === 1 || tabIndex === 2) || mode && Platform.OS != 'android' ? 'light-content' : 'dark-content'}/>
-          {/* <StatusBar barStyle={Platform.OS === 'android' ? 'light-content' : 'dark-content'}/> */}
           <Tab.Navigator 
             tabBarOptions={{
               activeTintColor: paletteColors.purple,
@@ -205,7 +166,6 @@ export default function Navigation() {
               })}
             />
           </Tab.Navigator>
-        {/* </iconArrayContext.Provider> */}
       </incomesContext.Provider>
     </themeContext.Provider>
   )

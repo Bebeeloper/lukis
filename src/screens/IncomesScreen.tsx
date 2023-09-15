@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { View, Text, SafeAreaView, StyleSheet, ScrollView, Alert, Modal } from 'react-native';
 import { Button, IconButton } from 'react-native-paper';
 import { paletteColors } from '../colors/PaletteColors';
-import { iconArrayContext, incomesContext, themeContext } from '../context/ThemeContext';
+import { incomesContext, themeContext } from '../context/ThemeContext';
 import { Searchbar } from 'react-native-paper';
 import { BlurView } from 'expo-blur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -48,7 +48,6 @@ export default function IncomesScreen() {
   //////////////////////////////////////////////////////////////////////
 
   const { incomesArray, setIncomesArray } = useContext(incomesContext);
-  // const { iconCategoryArray, setIconCategoryArray } = useContext(iconArrayContext);
   const [iconCategoryArray, setIconCategoryArray] = useState<iconsType>({icons: [
     {
       name: 'account-cash-outline',
