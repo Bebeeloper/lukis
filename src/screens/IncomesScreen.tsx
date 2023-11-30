@@ -1,15 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { View, Text, SafeAreaView, StyleSheet, ScrollView, Alert, Modal } from 'react-native';
+import React, { useContext, useState } from 'react'
+import { TouchableWithoutFeedback, Keyboard, View, Text, SafeAreaView, StyleSheet, ScrollView, Alert, Modal } from 'react-native';
 import { Button, IconButton } from 'react-native-paper';
 import { paletteColors } from '../colors/PaletteColors';
-import { iconArrayContext, incomesContext, themeContext } from '../context/ThemeContext';
+import { incomesContext, themeContext } from '../context/ThemeContext';
 import { Searchbar } from 'react-native-paper';
 import { BlurView } from 'expo-blur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { TextInput } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import RNDateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
-import { iconsType } from '../types/Types';
+import { iconsType, incomeType } from '../types/Types';
+import { useFormik, FormikProps } from 'formik';
+import * as Yup from 'yup';
 
 const categoryIcons: any = {
   nomina: 'file-invoice-dollar',
@@ -118,6 +119,20 @@ export default function IncomesScreen() {
   const styles = getStylesIncomes(mode);
   const stylesModal = getStylesModal(mode);
 
+  // useFormik
+  const formik: FormikProps<incomeType> = useFormik<incomeType>({
+    initialValues: initialValues(),
+    validationSchema: Yup.object(validationSchema()),
+    onSubmit: (getValues, { resetForm }) => {
+      resetForm();
+      setModalVisible(!modalVisible);
+    }
+  });
+
+  const buttonDisabled = formik.values.price === '' ? true : formik.isValid ? false : true;
+console.log('price: ' , formik.values.price);
+console.log('valid: ' , formik.isValid);
+
   const numberFormat = (num: number) => {
     const numericValue = Number(num); // Convert the value to number
     if (isNaN(numericValue)) {
@@ -200,32 +215,47 @@ export default function IncomesScreen() {
           setModalVisible(!modalVisible);
         }}>
         <BlurView intensity={5} style={stylesModal.centeredView}>
-          <View style={stylesModal.modalView}>
-            <ScrollView style={{zIndex: 1, position: 'absolute', height: '10%', width: '100%'}}
-              onScrollEndDrag={() => setModalVisible(!modalVisible)}
-            >
-              <Icon style={{textAlign: 'center', top: -35}} name={'window-minimize'} size={50} color={paletteColors.whiteLight}/>
-            </ScrollView>
+        <View style={stylesModal.modalView}>
+          <ScrollView style={{zIndex: 1, position: 'absolute', height: '10%', width: '100%'}}
+            onScrollEndDrag={() => setModalVisible(!modalVisible)}
+          >
+            <Icon style={{textAlign: 'center', top: -35}} name={'window-minimize'} size={50} color={paletteColors.whiteLight}/>
+          </ScrollView>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> 
             <View style={{paddingTop: 50, paddingHorizontal: 30}}>
               <Text style={stylesModal.modalText}>Nuevo ingreso</Text>
               <TextInput
                 style={{backgroundColor: paletteColors.white, borderRadius: 50}}
                 label="Precio"
+                keyboardType='numeric'
                 mode={'outlined'}
-                value={priceInput}
-                onChangeText={text => setPriceInput(priceInput)}
+                value={formik.values.price}
+                onChangeText={(text) => formik.setFieldValue('price', text)}
                 left={<TextInput.Icon icon="currency-usd" />}
               />
+              <Text style={{color: 'red', marginTop: 10}}>{formik.errors.price}</Text>
               <TextInput
                 style={{marginTop: 20, backgroundColor: paletteColors.white, borderRadius: 50, maxHeight: 100}}
-                label="Descripción"
+                label="Nombre"
                 mode={'outlined'}
-                value={priceInput}
-                onChangeText={text => setPriceInput(priceInput)}
+                value={formik.values.name}
+                onChangeText={(text) => formik.setFieldValue('name', text)}
                 left={<TextInput.Icon icon="comment-processing-outline" />}
                 multiline={true}
                 numberOfLines={3}
               />
+              <Text style={{color: 'red', marginTop: 10}}>{formik.errors.name}</Text>
+              <TextInput
+                style={{marginTop: 20, backgroundColor: paletteColors.white, borderRadius: 50, maxHeight: 100}}
+                label="Descripción"
+                mode={'outlined'}
+                value={formik.values.description}
+                onChangeText={(text) => formik.setFieldValue('description', text)}
+                left={<TextInput.Icon icon="comment-processing-outline" />}
+                multiline={true}
+                numberOfLines={3}
+              />
+              <Text style={{color: 'red', marginTop: 10}}>{formik.errors.description}</Text>
               <View style={{marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                 <Icon style={{marginLeft: 15}} name={'calendar-alt'} size={25}/>
                 <DateTimePicker
@@ -272,16 +302,40 @@ export default function IncomesScreen() {
                 // loading={true}
                 icon="content-save-outline" 
                 mode="contained" 
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={() => formik.handleSubmit()}
+                disabled={buttonDisabled}
               >
                 Guardar
               </Button>
-            </View>
-          </View>
+            </View> 
+          </TouchableWithoutFeedback>
+        </View>
         </BlurView>
       </Modal>
     </SafeAreaView>
   )
+}
+
+const initialValues = () => {
+    return {
+      id: '',
+      name: '',
+      description: '',
+      price: '',
+      date: '',
+      category: '',
+    }
+}
+
+const validationSchema = () => {
+    return {
+      // id: '',
+      name: Yup.string().required("El nombre es requerido"),
+      description: Yup.string().required("La descripción es requerida"),
+      price: Yup.string().required("El precio es requerido"),
+      // date: '',
+      // category: '',
+    }
 }
 
 const getStylesModal = (mode: boolean) => StyleSheet.create({

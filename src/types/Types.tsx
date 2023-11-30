@@ -14,6 +14,15 @@ export type incomesType = {
     }[]
 }
 
+export type incomeType = {
+    id: string,
+    name: string,
+    description: string,
+    price: string,
+    date: string,
+    category: string
+}
+
 export type iconsType = {
     icons: {
         name: string,

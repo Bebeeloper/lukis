@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, StyleSheet, StatusBar, Button, Platform } from 'react-native'
+import { Text, StatusBar, Platform } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -12,8 +12,8 @@ import AccountNavigation from './AccountNavigation';
 
 // Import resources
 import { paletteColors } from '../colors/PaletteColors';
-import { themeContext, incomesContext, iconArrayContext } from '../context/ThemeContext';
-import { iconsType, incomesType } from '../types/Types';
+import { themeContext, incomesContext } from '../context/ThemeContext';
+import { incomesType } from '../types/Types';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,38 +30,38 @@ export default function Navigation() {
       date: '02/07/09',
       category: 'nomina'
     },
-    {
-      id: 2,
-      name: 'Ganancia desarrollo app',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-      price: 1500000,
-      date: '02/07/09',
-      category: 'freelance'
-    },
-    {
-      id: 3,
-      name: 'Mantenimiento computadores',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-      price: 1500000,
-      date: '02/07/09',
-      category: 'tools'
-    },
-    {
-      id: 2,
-      name: 'Ganancia desarrollo app',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-      price: 1500000,
-      date: '02/07/09',
-      category: 'freelance'
-    },
-    {
-      id: 3,
-      name: 'Mantenimiento computadores',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-      price: 1500000,
-      date: '02/07/09',
-      category: 'tools'
-    }
+    // {
+    //   id: 2,
+    //   name: 'Ganancia desarrollo app',
+    //   description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+    //   price: 1500000,
+    //   date: '02/07/09',
+    //   category: 'freelance'
+    // },
+    // {
+    //   id: 3,
+    //   name: 'Mantenimiento computadores',
+    //   description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+    //   price: 1500000,
+    //   date: '02/07/09',
+    //   category: 'tools'
+    // },
+    // {
+    //   id: 2,
+    //   name: 'Ganancia desarrollo app',
+    //   description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+    //   price: 1500000,
+    //   date: '02/07/09',
+    //   category: 'freelance'
+    // },
+    // {
+    //   id: 3,
+    //   name: 'Mantenimiento computadores',
+    //   description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+    //   price: 1500000,
+    //   date: '02/07/09',
+    //   category: 'tools'
+    // }
   ]});
 
   // const [iconCategoryArray, setIconCategoryArray] = useState<iconsType>({icons: [
