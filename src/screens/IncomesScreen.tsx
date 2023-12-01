@@ -26,6 +26,8 @@ export default function IncomesScreen() {
   const [mode1, setMode1] = useState<any>('date');
   const [show, setShow] = useState(false);
 
+  console.log(date);
+  
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate;
     setShow(false);
@@ -117,8 +119,8 @@ export default function IncomesScreen() {
           name: getValues.name,
           description: getValues.description,
           price: parseInt(getValues.price),
-          date: date.toString(),
-          category: iconCategory.toLowerCase(),
+          date: formatDate(date),
+          category: iconCategory === 'Mantenimiento' ? 'tools' : iconCategory.toLowerCase(),
         }]
       };
       
@@ -144,8 +146,8 @@ export default function IncomesScreen() {
 
   const selecticonCategory = (index: number, iconText: string) => {
     
-    console.log(getObjectKey(categoryIcons, iconText));
-    console.log(iconText);
+    // console.log(getObjectKey(categoryIcons, iconText));
+    // console.log(iconText);
     
     setIconCategory(iconText);
 
@@ -166,6 +168,18 @@ export default function IncomesScreen() {
 
   const getObjectKey = (obj: any, value: any) => {
     return Object.keys(obj).find(key => obj[key] === value);
+  }
+
+  const padTo2Digits = (num: number) => {
+    return num.toString().padStart(2, '0');
+  }
+
+  const formatDate = (date: Date) => {
+    return [
+      padTo2Digits(date.getDate()),
+      padTo2Digits(date.getMonth() + 1),
+      date.getFullYear(),
+    ].join('-');
   }
 
   return (
@@ -231,6 +245,7 @@ export default function IncomesScreen() {
             <View style={{paddingTop: 50, paddingHorizontal: 30}}>
               <Text style={stylesModal.modalText}>Nuevo ingreso</Text>
               <TextInput
+                // ref={inputRef}
                 style={{backgroundColor: paletteColors.white, borderRadius: 50}}
                 label="Precio"
                 keyboardType='numeric'
