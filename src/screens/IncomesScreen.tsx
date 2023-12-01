@@ -8,7 +8,7 @@ import { BlurView } from 'expo-blur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { TextInput } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { iconsType, incomeType } from '../types/Types';
+import { iconsType, incomeType, incomesType } from '../types/Types';
 import { useFormik, FormikProps } from 'formik';
 import * as Yup from 'yup';
 
@@ -32,24 +32,9 @@ export default function IncomesScreen() {
     setDate(currentDate);
   };
 
-  const showMode = (currentMode: any) => {
-    setShow(true);
-    setMode1(currentMode);
-  };
-
-  const showDatepicker = () => {
-    showMode('date');
-  };
-
-  const showTimepicker = () => {
-    showMode('time');
-  };
-
-
   //////////////////////////////////////////////////////////////////////
 
   const { incomesArray, setIncomesArray } = useContext(incomesContext);
-  // const { iconCategoryArray, setIconCategoryArray } = useContext(iconArrayContext);
   const [iconCategoryArray, setIconCategoryArray] = useState<iconsType>({icons: [
     {
       name: 'account-cash-outline',
@@ -106,9 +91,9 @@ export default function IncomesScreen() {
       background: paletteColors.white
     }
   ]});
-  
-  const [ indexIcon, setIndexIcon ] = useState<number>();
-  const [priceInput, setPriceInput] = useState<string>();
+
+  const [iconCategory, setIconCategory] = useState<string>('');
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const [searchValue, setSearchValue] = React.useState<string>('');
@@ -126,12 +111,26 @@ export default function IncomesScreen() {
     onSubmit: (getValues, { resetForm }) => {
       resetForm();
       setModalVisible(!modalVisible);
+      const newArray: incomesType = {
+        incomes: [{
+          id: 0,
+          name: getValues.name,
+          description: getValues.description,
+          price: parseInt(getValues.price),
+          date: date.toString(),
+          category: iconCategory.toLowerCase(),
+        }]
+      };
+      
+      setIncomesArray((incomesArray) => {
+        return {
+          incomes: [...incomesArray.incomes, ...newArray.incomes]
+        };
+      });
     }
   });
 
   const buttonDisabled = formik.values.price === '' ? true : formik.isValid ? false : true;
-console.log('price: ' , formik.values.price);
-console.log('valid: ' , formik.isValid);
 
   const numberFormat = (num: number) => {
     const numericValue = Number(num); // Convert the value to number
@@ -143,10 +142,13 @@ console.log('valid: ' , formik.isValid);
     }
   }  
 
-  const selecticonCategory = (index: number) => {
+  const selecticonCategory = (index: number, iconText: string) => {
     
-    // setIndexIcon(index);
+    console.log(getObjectKey(categoryIcons, iconText));
+    console.log(iconText);
     
+    setIconCategory(iconText);
+
     let arrayIconJson = iconCategoryArray;
 
     for (let i = 0; i < arrayIconJson.icons.length; i++) {
@@ -160,6 +162,10 @@ console.log('valid: ' , formik.isValid);
     }      
     setIconCategoryArray({...arrayIconJson});
     
+  }
+
+  const getObjectKey = (obj: any, value: any) => {
+    return Object.keys(obj).find(key => obj[key] === value);
   }
 
   return (
@@ -288,7 +294,7 @@ console.log('valid: ' , formik.isValid);
                         icon={itemIcon.name}
                         iconColor={itemIcon.color}
                         size={50}
-                        onPress={() => selecticonCategory(i)}
+                        onPress={() => selecticonCategory(i, itemIcon.text)}
                       />
                       <Text style={{fontSize: 10, color: itemIcon.color}}>{itemIcon.text}</Text>
                     </View>
@@ -465,6 +471,7 @@ export const getStylesIncomes = (mode: boolean) => StyleSheet.create({
     fontSize: 12
   },
   incomeIcon: {
+    padding: 10,
     marginLeft: 'auto', 
     marginRight: 'auto', 
     marginTop: 'auto', 
