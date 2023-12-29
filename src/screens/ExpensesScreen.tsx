@@ -26,7 +26,8 @@ export default function ExpensesScreen() {
         placeholder="Busca un ingreso..."
         onChangeText={onChangeSearch}
         value={searchValue}
-        color={mode ? paletteColors.white : paletteColors.black}
+        // color={mode ? paletteColors.white : paletteColors.black}
+        theme={{colors: { primary: !mode ? paletteColors.backgroundLight : paletteColors.limeLight}}}
       />
       <View style={styles.incomeContainer}>
         <View style={styles.dateContainer}>

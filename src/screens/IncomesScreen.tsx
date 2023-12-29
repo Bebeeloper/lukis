@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { TouchableWithoutFeedback, Keyboard, View, Text, SafeAreaView, StyleSheet, ScrollView, Alert, Modal } from 'react-native';
 import { Button, IconButton } from 'react-native-paper';
 import { paletteColors } from '../colors/PaletteColors';
-import { incomesContext, themeContext } from '../context/ThemeContext';
+import { incomesContext, incomesSearchedContext, themeContext, totalMoneyContext } from '../context/ThemeContext';
 import { Searchbar } from 'react-native-paper';
 import { BlurView } from 'expo-blur';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -25,8 +25,6 @@ export default function IncomesScreen() {
   const [date, setDate] = useState(new Date());
   const [mode1, setMode1] = useState<any>('date');
   const [show, setShow] = useState(false);
-
-  console.log(date);
   
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate;
@@ -36,6 +34,8 @@ export default function IncomesScreen() {
 
   //////////////////////////////////////////////////////////////////////
 
+  const { incomesSearchedArray, setIncomesSearchedArray } = useContext(incomesSearchedContext);
+  const { totalMoney, setTotalMoney } = useContext(totalMoneyContext);
   const { incomesArray, setIncomesArray } = useContext(incomesContext);
   const [iconCategoryArray, setIconCategoryArray] = useState<iconsType>({icons: [
     {
@@ -93,16 +93,22 @@ export default function IncomesScreen() {
       background: paletteColors.white
     }
   ]});
-
+  
   const [iconCategory, setIconCategory] = useState<string>('');
-
+  
   const [modalVisible, setModalVisible] = useState(false);
-
+  
   const [searchValue, setSearchValue] = React.useState<string>('');
-  const onChangeSearch = (value: string) => setSearchValue(value);
+  const onChangeSearch = (value: string) => {
+    setSearchValue(value);
 
+    if (!value) {
+      setIncomesSearchedArray({incomes: []});
+    }
+  }
+  
   const {mode} = useContext(themeContext);
-
+  
   const styles = getStylesIncomes(mode);
   const stylesModal = getStylesModal(mode);
 
@@ -129,6 +135,17 @@ export default function IncomesScreen() {
           incomes: [...incomesArray.incomes, ...newArray.incomes]
         };
       });
+
+      let total = 0;
+
+      incomesArray.incomes.forEach(item => {
+        total += item.price;
+      });
+
+      total += parseInt(getValues.price);
+
+      setTotalMoney(total);
+      
     }
   });
 
@@ -145,9 +162,6 @@ export default function IncomesScreen() {
   }  
 
   const selecticonCategory = (index: number, iconText: string) => {
-    
-    // console.log(getObjectKey(categoryIcons, iconText));
-    // console.log(iconText);
     
     setIconCategory(iconText);
 
@@ -182,6 +196,19 @@ export default function IncomesScreen() {
     ].join('-');
   }
 
+  const onSubmitSearch = (nameSearched: string) => {
+    let newIncomesSearched: incomesType = {incomes: []}
+    let incomesFiltered = incomesArray.incomes.filter((item) => item.name.includes(nameSearched));
+
+    
+    
+    newIncomesSearched.incomes = incomesFiltered;
+    console.log(incomesFiltered);
+
+    setIncomesSearchedArray(newIncomesSearched);
+    // console.log('Enter presionado. Realizar búsqueda u otras acciones aquí.');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchContainer}>
@@ -195,27 +222,50 @@ export default function IncomesScreen() {
           value={searchValue}
           theme={{colors: { primary: !mode ? paletteColors.backgroundLight : paletteColors.limeLight}}}
           inputStyle={{color: mode ? paletteColors.white : paletteColors.backgroundLight}}
+          onSubmitEditing={() => onSubmitSearch(searchValue)}
         />
       </View>
       <ScrollView style={styles.scrollList}>
         {
-          incomesArray.incomes.map((item, i) => (
-            <View style={styles.incomeContainer} key={i + 1}>
-              <View style={styles.dateContainer}>
-                <Text style={styles.dateText}>{`Fecha: ${item.date}`}</Text>
-              </View>
-              <View style={styles.infoPriceContainer}>
-                <View style={styles.incomeInfoContantainer}>
-                  <Text style={styles.incomeName}>{item.name}</Text>
-                  <Text style={styles.incomeText}>{item.description}</Text>
+          incomesSearchedArray.incomes.length > 0 ?
+
+            incomesSearchedArray.incomes.map((item, i) => (
+              <View style={styles.incomeContainer} key={i + 1}>
+                <View style={styles.dateContainer}>
+                  <Text style={styles.dateText}>{`Fecha: ${item.date}`}</Text>
                 </View>
-                <View style={styles.incomePriceContainer}>
-                  <Text style= {styles.incomePrice}>{`${numberFormat(item.price)}`}</Text>
-                  <Icon style={styles.incomeIcon} name={categoryIcons[item.category]} size={35} color={mode ? paletteColors.lime : paletteColors.limeLight}/>
+                <View style={styles.infoPriceContainer}>
+                  <View style={styles.incomeInfoContantainer}>
+                    <Text style={styles.incomeName}>{item.name}</Text>
+                    <Text style={styles.incomeText}>{item.description}</Text>
+                  </View>
+                  <View style={styles.incomePriceContainer}>
+                    <Text style= {styles.incomePrice}>{`${numberFormat(item.price)}`}</Text>
+                    <Icon style={styles.incomeIcon} name={categoryIcons[item.category]} size={35} color={mode ? paletteColors.lime : paletteColors.limeLight}/>
+                  </View>
                 </View>
               </View>
-            </View>
-          ))
+            ))
+
+          :
+
+            incomesArray.incomes.map((item, i) => (
+              <View style={styles.incomeContainer} key={i + 1}>
+                <View style={styles.dateContainer}>
+                  <Text style={styles.dateText}>{`Fecha: ${item.date}`}</Text>
+                </View>
+                <View style={styles.infoPriceContainer}>
+                  <View style={styles.incomeInfoContantainer}>
+                    <Text style={styles.incomeName}>{item.name}</Text>
+                    <Text style={styles.incomeText}>{item.description}</Text>
+                  </View>
+                  <View style={styles.incomePriceContainer}>
+                    <Text style= {styles.incomePrice}>{`${numberFormat(item.price)}`}</Text>
+                    <Icon style={styles.incomeIcon} name={categoryIcons[item.category]} size={35} color={mode ? paletteColors.lime : paletteColors.limeLight}/>
+                  </View>
+                </View>
+              </View>
+            ))
         }
       </ScrollView>
       <View style={styles.btnAdd}>

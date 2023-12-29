@@ -37,7 +37,17 @@ export type incomesArrayType = {
     setIncomesArray: React.Dispatch<React.SetStateAction<incomesType>>
 }
 
+export type incomesSearchedArrayType = {
+    incomesSearchedArray: incomesType
+    setIncomesSearchedArray: React.Dispatch<React.SetStateAction<incomesType>>
+}
+
 export type iconsArrayType = {
     iconCategoryArray: iconsType, 
     setIconCategoryArray: React.Dispatch<React.SetStateAction<iconsType>> 
+}
+
+export type totalMoneyType = {
+    totalMoney: number,
+    setTotalMoney: React.Dispatch<React.SetStateAction<number>>
 }

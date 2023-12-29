@@ -2,15 +2,26 @@ import React, { useContext } from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 import IncomesScreen from '../screens/IncomesScreen';
 import { paletteColors } from '../colors/PaletteColors';
-import { themeContext } from '../context/ThemeContext';
+import { themeContext, totalMoneyContext } from '../context/ThemeContext';
 import { IconButton } from 'react-native-paper';
-import { Avatar } from 'react-native-paper';
+import { Text } from 'react-native';
 
 const Stack = createStackNavigator();
 
 export default function IncomesNavigation() {
 
   const {mode} = useContext(themeContext);
+  const { totalMoney } = useContext(totalMoneyContext);
+
+  const numberFormat = (num: number) => {
+    const numericValue = Number(num); // Convert the value to number
+    if (isNaN(numericValue)) {
+        // If not a valid number, return an empty string or the original value
+        return "";
+    } else {
+        return "$ " + numericValue.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"); // And this would be the function
+    }
+  } 
 
   return (
     <Stack.Navigator>
@@ -27,6 +38,10 @@ export default function IncomesNavigation() {
               headerTitleStyle: {
                 fontWeight: 'bold',
               },
+              headerLeft: () => (
+                <Text style={{marginLeft: 20, color: 'white'}}>{numberFormat(totalMoney)}</Text>
+                // <Avatar.Image style={{marginRight: 20}} size={35} source={require('../../assets/avatar-icon.png')} /3
+              ),
               headerRight: () => (
                 <IconButton
                   // style={{marginRight: 20}}

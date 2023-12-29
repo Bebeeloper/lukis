@@ -12,7 +12,7 @@ import AccountNavigation from './AccountNavigation';
 
 // Import resources
 import { paletteColors } from '../colors/PaletteColors';
-import { themeContext, incomesContext } from '../context/ThemeContext';
+import { themeContext, incomesContext, totalMoneyContext, incomesSearchedContext } from '../context/ThemeContext';
 import { incomesType } from '../types/Types';
 
 const Tab = createBottomTabNavigator();
@@ -29,40 +29,12 @@ export default function Navigation() {
       price: 2500000,
       date: '02/07/09',
       category: 'nomina'
-    },
-    // {
-    //   id: 2,
-    //   name: 'Ganancia desarrollo app',
-    //   description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-    //   price: 1500000,
-    //   date: '02/07/09',
-    //   category: 'freelance'
-    // },
-    // {
-    //   id: 3,
-    //   name: 'Mantenimiento computadores',
-    //   description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-    //   price: 1500000,
-    //   date: '02/07/09',
-    //   category: 'tools'
-    // },
-    // {
-    //   id: 2,
-    //   name: 'Ganancia desarrollo app',
-    //   description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-    //   price: 1500000,
-    //   date: '02/07/09',
-    //   category: 'freelance'
-    // },
-    // {
-    //   id: 3,
-    //   name: 'Mantenimiento computadores',
-    //   description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-    //   price: 1500000,
-    //   date: '02/07/09',
-    //   category: 'tools'
-    // }
+    }
   ]});
+  
+  const [incomesSearchedArray, setIncomesSearchedArray] = useState<incomesType>({incomes:[]});
+
+  const [ totalMoney, setTotalMoney ] = useState<number>(2500000);
 
   // const [iconCategoryArray, setIconCategoryArray] = useState<iconsType>({icons: [
   //   {
@@ -108,105 +80,115 @@ export default function Navigation() {
       mode,
       setMode
     }}>
-      <incomesContext.Provider value={{
-        incomesArray, 
-        setIncomesArray
+      <incomesSearchedContext.Provider value={{
+        incomesSearchedArray, 
+        setIncomesSearchedArray
       }}>
-        {/* <iconArrayContext.Provider
-          value={{
-            iconCategoryArray, 
-            setIconCategoryArray
-          }}
-        > */}
-          <StatusBar barStyle={(tabIndex === 1 || tabIndex === 2) || mode && Platform.OS != 'android' ? 'light-content' : 'dark-content'}/>
-          {/* <StatusBar barStyle={Platform.OS === 'android' ? 'light-content' : 'dark-content'}/> */}
-          <Tab.Navigator 
-            tabBarOptions={{
-              activeTintColor: paletteColors.purple,
-              style: {
-                backgroundColor: mode ? paletteColors.black : paletteColors.white
-              }
-            }}
-          >
-            <Tab.Screen 
-              name='Home' 
-              component={HomeNavigation} 
-              options={{
-                tabBarLabel: 'Inicio',
-                tabBarIcon: ({focused, color, size}) => (
-                  <Icon name='fort-awesome' color={color} size={size}/>
-                )
+        <incomesContext.Provider value={{
+          incomesArray, 
+          setIncomesArray
+        }}>
+          <totalMoneyContext.Provider value={{
+            totalMoney, 
+            setTotalMoney
+          }}>
+            {/* <iconArrayContext.Provider
+              value={{
+                iconCategoryArray, 
+                setIconCategoryArray
               }}
-              listeners={({ navigation, route }) => ({
-                tabPress: (e) => {
-                  setTabIndex(0);
-                },
-              })}
-            />
-            <Tab.Screen 
-              name='Incomes' 
-              component={IncomesNavigation}
-              options={{
-                tabBarLabel: ({focused, color}) => (
-                  <Text style={{
-                    fontSize: 10,
-                    color: focused && mode ? paletteColors.lime : focused && !mode ? paletteColors.limeLight : color
-                  }}>Ingresos</Text>
-                ),
-                tabBarIcon: ({focused, color, size}) => (
-                  <Icon 
-                    name='wallet' 
-                    color={focused && mode ? paletteColors.lime : focused && !mode ? paletteColors.limeLight : color} 
-                    size={size}
-                  />
-                )
-              }}
-              listeners={({ navigation, route }) => ({
-                tabPress: (e) => {
-                  setTabIndex(1);
-                },
-              })}
-            />
-            <Tab.Screen 
-              name='Expenses' 
-              component={ExpensesNavigation}
-              options={{
-                tabBarLabel: ({focused, color}) => (
-                  <Text style={{
-                    fontSize: 10,
-                    color: focused && mode ? paletteColors.fire : focused && !mode ? paletteColors.fireLight : color
-                  }}>Egresos</Text>
-                ),
-                // tabBarLabe: paletteColors.lime,
-                tabBarIcon: ({focused, color, size}) => (
-                  <Icon name='funnel-dollar' color={focused && mode ? paletteColors.fire : focused && !mode ? paletteColors.fireLight : color} size={size} />
-                )
-              }}
-              listeners={({ navigation, route }) => ({
-                tabPress: (e) => {
-                  setTabIndex(2);
-                  
-                },
-              })}
-            />
-            <Tab.Screen 
-              name='Account' 
-              component={AccountNavigation}
-              options={{
-                tabBarLabel: 'Cuenta',
-                tabBarIcon: ({color, size, }) => (
-                  <Icon name='user-tie' color={color} size={size} />
-                )
-              }}
-              listeners={({ navigation, route }) => ({
-                tabPress: (e) => {
-                  setTabIndex(3);
-                },
-              })}
-            />
-          </Tab.Navigator>
-        {/* </iconArrayContext.Provider> */}
-      </incomesContext.Provider>
+            > */}
+              <StatusBar barStyle={(tabIndex === 1 || tabIndex === 2) || mode && Platform.OS != 'android' ? 'light-content' : 'dark-content'}/>
+              {/* <StatusBar barStyle={Platform.OS === 'android' ? 'light-content' : 'dark-content'}/> */}
+              <Tab.Navigator 
+                tabBarOptions={{
+                  activeTintColor: paletteColors.purple,
+                  style: {
+                    backgroundColor: mode ? paletteColors.black : paletteColors.white
+                  }
+                }}
+              >
+                <Tab.Screen 
+                  name='Home' 
+                  component={HomeNavigation} 
+                  options={{
+                    tabBarLabel: 'Inicio',
+                    tabBarIcon: ({focused, color, size}) => (
+                      <Icon name='fort-awesome' color={color} size={size}/>
+                    )
+                  }}
+                  listeners={({ navigation, route }) => ({
+                    tabPress: (e) => {
+                      setTabIndex(0);
+                    },
+                  })}
+                />
+                <Tab.Screen 
+                  name='Incomes' 
+                  component={IncomesNavigation}
+                  options={{
+                    tabBarLabel: ({focused, color}) => (
+                      <Text style={{
+                        fontSize: 10,
+                        color: focused && mode ? paletteColors.lime : focused && !mode ? paletteColors.limeLight : color
+                      }}>Ingresos</Text>
+                    ),
+                    tabBarIcon: ({focused, color, size}) => (
+                      <Icon 
+                        name='wallet' 
+                        color={focused && mode ? paletteColors.lime : focused && !mode ? paletteColors.limeLight : color} 
+                        size={size}
+                      />
+                    )
+                  }}
+                  listeners={({ navigation, route }) => ({
+                    tabPress: (e) => {
+                      setTabIndex(1);
+                    },
+                  })}
+                />
+                <Tab.Screen 
+                  name='Expenses' 
+                  component={ExpensesNavigation}
+                  options={{
+                    tabBarLabel: ({focused, color}) => (
+                      <Text style={{
+                        fontSize: 10,
+                        color: focused && mode ? paletteColors.fire : focused && !mode ? paletteColors.fireLight : color
+                      }}>Egresos</Text>
+                    ),
+                    // tabBarLabe: paletteColors.lime,
+                    tabBarIcon: ({focused, color, size}) => (
+                      <Icon name='funnel-dollar' color={focused && mode ? paletteColors.fire : focused && !mode ? paletteColors.fireLight : color} size={size} />
+                    )
+                  }}
+                  listeners={({ navigation, route }) => ({
+                    tabPress: (e) => {
+                      setTabIndex(2);
+                      
+                    },
+                  })}
+                />
+                <Tab.Screen 
+                  name='Account' 
+                  component={AccountNavigation}
+                  options={{
+                    tabBarLabel: 'Cuenta',
+                    tabBarIcon: ({color, size, }) => (
+                      <Icon name='user-tie' color={color} size={size} />
+                    )
+                  }}
+                  listeners={({ navigation, route }) => ({
+                    tabPress: (e) => {
+                      setTabIndex(3);
+                    },
+                  })}
+                />
+              </Tab.Navigator>
+            {/* </iconArrayContext.Provider> */}
+          </totalMoneyContext.Provider>
+        </incomesContext.Provider>
+      </incomesSearchedContext.Provider>
     </themeContext.Provider>
   )
 }
