@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Text, StatusBar, Platform } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -14,10 +14,30 @@ import AccountNavigation from './AccountNavigation';
 import { paletteColors } from '../colors/PaletteColors';
 import { themeContext, incomesContext, totalMoneyContext, incomesSearchedContext } from '../context/ThemeContext';
 import { incomesType } from '../types/Types';
+import { initDatabase } from '../utils/db';
 
 const Tab = createBottomTabNavigator();
 
 export default function Navigation() {
+
+  // useEffect(function () {    
+  //   async function init() {
+  //     await initDatabase();
+  //   }
+  //   init();
+  // }, []);
+
+  useEffect(() => {
+    async function init() {
+      try {
+        await initDatabase();
+      } catch (error) {
+        console.error('Error initializing database:', error);
+        // Puedes manejar el error aquí, por ejemplo, mostrando un mensaje al usuario
+      }
+    }
+    init();
+  }, []);
 
   const [mode, setMode] = useState<boolean>(false);
   const [tabIndex, setTabIndex] = useState<number>(0);
