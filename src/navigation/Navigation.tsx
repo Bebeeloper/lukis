@@ -27,17 +27,17 @@ export default function Navigation() {
   //   init();
   // }, []);
 
-  useEffect(() => {
-    async function init() {
-      try {
-        await initDatabase();
-      } catch (error) {
-        console.error('Error initializing database:', error);
-        // Puedes manejar el error aquí, por ejemplo, mostrando un mensaje al usuario
-      }
-    }
-    init();
-  }, []);
+  // useEffect(() => {
+  //   async function init() {
+  //     try {
+  //       await initDatabase();
+  //     } catch (error) {
+  //       console.error('Error initializing database:', error);
+  //       // Puedes manejar el error aquí, por ejemplo, mostrando un mensaje al usuario
+  //     }
+  //   }
+  //   init();
+  // }, []);
 
   const [mode, setMode] = useState<boolean>(false);
   const [tabIndex, setTabIndex] = useState<number>(0);
