@@ -13,4 +13,5 @@ export const paletteColors = {
     fire: '#FF0000',
     light: '#6C6C6C',
     sky_rgb: 'rgb(12 74 110)',
+    barChart: '#CECECE',
 }
