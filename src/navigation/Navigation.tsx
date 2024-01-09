@@ -20,25 +20,6 @@ const Tab = createBottomTabNavigator();
 
 export default function Navigation() {
 
-  // useEffect(function () {    
-  //   async function init() {
-  //     await initDatabase();
-  //   }
-  //   init();
-  // }, []);
-
-  // useEffect(() => {
-  //   async function init() {
-  //     try {
-  //       await initDatabase();
-  //     } catch (error) {
-  //       console.error('Error initializing database:', error);
-  //       // Puedes manejar el error aquí, por ejemplo, mostrando un mensaje al usuario
-  //     }
-  //   }
-  //   init();
-  // }, []);
-
   const [mode, setMode] = useState<boolean>(false);
   const [tabIndex, setTabIndex] = useState<number>(0);
   const [incomesArray, setIncomesArray] = useState<incomesType>({incomes:[
