@@ -147,7 +147,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-around'}}>
-        <View style={{marginRight: 'auto', marginLeft: 'auto', padding: 2, width: '90%'}}>
+        <View style={{marginRight: 'auto', marginLeft: 'auto', padding: 10, width: '90%', backgroundColor: `${mode ? paletteColors.blackLight : paletteColors.whiteDark}`, borderRadius: 10}}>
           <View style={{marginBottom: 15}}>
             <SegmentedControlTab
               tabStyle={{width: '80%', height: 50, backgroundColor: `${mode ? paletteColors.black : paletteColors.white}`, borderColor: paletteColors.limeLight}}
@@ -195,11 +195,7 @@ export default function HomeScreen() {
           }
         </View>
 
-        <View style={{marginRight: 'auto', marginLeft: 'auto', padding: 2, width: '90%'}} onLayout={(event) => {
-          // Obtén las dimensiones del View cuando cambie su tamaño
-          const { width } = event.nativeEvent.layout;
-          setViewWidth(width);
-        }}>
+        <View style={{marginRight: 'auto', marginLeft: 'auto', padding: 10, width: '90%', backgroundColor: `${mode ? paletteColors.blackLight : paletteColors.whiteDark}`, borderRadius: 10}}>
           <View style={{marginBottom: 15}}>
             <SegmentedControlTab
               tabStyle={{width: '80%', height: 50, backgroundColor: `${mode ? paletteColors.black : paletteColors.white}`, borderColor: paletteColors.fireLight}}
