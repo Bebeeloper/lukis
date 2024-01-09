@@ -146,11 +146,21 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-around'}}>
-        <View style={{marginRight: 'auto', marginLeft: 'auto', padding: 10, width: '90%', backgroundColor: `${mode ? paletteColors.blackLight : paletteColors.whiteDark}`, borderRadius: 10}}>
+      <View style={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center'}}>
+        <View style={{
+          marginRight: 'auto', 
+          marginLeft: 'auto', 
+          padding: 10, 
+          width: '90%', 
+          backgroundColor: `${mode ? paletteColors.blackLight : paletteColors.whiteDark}`, 
+          borderRadius: 10,
+          borderWidth: 0.17,
+          borderColor: `${mode ? '#103A63' : '#DCDCDC'}`
+        }}>
           <View style={{marginBottom: 15}}>
+            <Text style={{marginBottom: 5, textAlign: 'center', color: paletteColors.limeLight, fontWeight: 'bold'}}>INGRESOS</Text>
             <SegmentedControlTab
-              tabStyle={{width: '80%', height: 50, backgroundColor: `${mode ? paletteColors.black : paletteColors.white}`, borderColor: paletteColors.limeLight}}
+              tabStyle={{width: '80%', height: 40, backgroundColor: `${mode ? paletteColors.black : paletteColors.white}`, borderColor: paletteColors.limeLight}}
               tabTextStyle={{color: paletteColors.limeLight}}
               activeTabStyle={{backgroundColor: paletteColors.limeLight}}
               values={["Semanal", "Mensual"]}
@@ -162,6 +172,7 @@ export default function HomeScreen() {
             <View>
                 <BarChart
                     width={Dimensions.get('window').width * 0.75}
+                    height={160}
                     barWidth={20}
                     noOfSections={5}
                     barBorderRadius={4}
@@ -179,7 +190,7 @@ export default function HomeScreen() {
             <View>
               <BarChart
                   width={Dimensions.get('window').width * 0.75}
-                  // width={viewWidth}
+                  height={160}
                   barWidth={20}
                   noOfSections={5}
                   barBorderRadius={4}
@@ -195,10 +206,20 @@ export default function HomeScreen() {
           }
         </View>
 
-        <View style={{marginRight: 'auto', marginLeft: 'auto', padding: 10, width: '90%', backgroundColor: `${mode ? paletteColors.blackLight : paletteColors.whiteDark}`, borderRadius: 10}}>
+        <View style={{
+          marginRight: 'auto', 
+          marginLeft: 'auto', 
+          padding: 10, 
+          width: '90%', 
+          backgroundColor: `${mode ? paletteColors.blackLight : paletteColors.whiteDark}`, 
+          borderRadius: 10,
+          borderWidth: 0.17,
+          borderColor: `${mode ? '#103A63' : '#DCDCDC'}`
+        }}>
           <View style={{marginBottom: 15}}>
+          <Text style={{marginBottom: 5, textAlign: 'center', color: paletteColors.fireLight, fontWeight: 'bold'}}>GASTOS</Text>
             <SegmentedControlTab
-              tabStyle={{width: '80%', height: 50, backgroundColor: `${mode ? paletteColors.black : paletteColors.white}`, borderColor: paletteColors.fireLight}}
+              tabStyle={{width: '80%', height: 40, backgroundColor: `${mode ? paletteColors.black : paletteColors.white}`, borderColor: paletteColors.fireLight}}
               tabTextStyle={{color: paletteColors.fireLight}}
               activeTabStyle={{backgroundColor: paletteColors.fireLight}}
               values={["Semanal", "Mensual"]}
@@ -210,7 +231,7 @@ export default function HomeScreen() {
             <View>
                 <BarChart
                     width={Dimensions.get('window').width * 0.75}
-                    // width={viewWidth}
+                    height={160}
                     barWidth={20}
                     noOfSections={5}
                     barBorderRadius={4}
@@ -227,7 +248,7 @@ export default function HomeScreen() {
             <View>
               <BarChart
                   width={Dimensions.get('window').width * 0.75}
-                  // width={viewWidth}
+                  height={160}
                   barWidth={20}
                   noOfSections={5}
                   barBorderRadius={4}
