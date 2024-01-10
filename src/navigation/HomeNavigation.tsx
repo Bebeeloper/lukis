@@ -3,12 +3,16 @@ import { createStackNavigator } from '@react-navigation/stack'
 import HomeScreen from '../screens/HomeScreen'
 import { themeContext } from '../context/ThemeContext';
 import { paletteColors } from '../colors/PaletteColors';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 const Stack = createStackNavigator();
 
 export default function HomeNavigation() {
 
-  const {mode} = useContext(themeContext);
+  const { mode } = useSelector((state: RootState) => state.themeReducer);
+  const dispatch = useDispatch();
+  // const {mode} = useContext(themeContext);
 
   return (
     <Stack.Navigator>

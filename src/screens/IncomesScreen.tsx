@@ -11,6 +11,8 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { iconsType, incomeType, incomesType } from '../types/Types';
 import { useFormik, FormikProps } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 const categoryIcons: any = {
   nomina: 'file-invoice-dollar',
@@ -19,6 +21,9 @@ const categoryIcons: any = {
 }
 
 export default function IncomesScreen() {
+
+  const { mode } = useSelector((state: RootState) => state.themeReducer);
+  const dispatch = useDispatch();
 
   //////////////////////////////////////////////////////////////////////
 
@@ -107,7 +112,7 @@ export default function IncomesScreen() {
     }
   }
   
-  const {mode} = useContext(themeContext);
+  // const {mode} = useContext(themeContext);
   
   const styles = getStylesIncomes(mode);
   const stylesModal = getStylesModal(mode);
@@ -198,7 +203,7 @@ export default function IncomesScreen() {
 
   const onSubmitSearch = (nameSearched: string) => {
     let newIncomesSearched: incomesType = {incomes: []}
-    let incomesFiltered = incomesArray.incomes.filter((item) => item.name.includes(nameSearched));
+    let incomesFiltered = incomesArray.incomes.filter((item) => item.name.toLowerCase().includes(nameSearched.toLowerCase()));
 
     
     

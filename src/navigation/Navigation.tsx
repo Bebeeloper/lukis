@@ -14,12 +14,17 @@ import AccountNavigation from './AccountNavigation';
 import { paletteColors } from '../colors/PaletteColors';
 import { themeContext, incomesContext, totalMoneyContext, incomesSearchedContext } from '../context/ThemeContext';
 import { incomesType } from '../types/Types';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 const Tab = createBottomTabNavigator();
 
 export default function Navigation() {
 
-  const [mode, setMode] = useState<boolean>(false);
+  const { mode } = useSelector((state: RootState) => state.themeReducer);
+  const dispatch = useDispatch();
+
+  // const [mode, setMode] = useState<boolean>(false);
   const [tabIndex, setTabIndex] = useState<number>(0);
   const [incomesArray, setIncomesArray] = useState<incomesType>({incomes:[
     {
@@ -36,50 +41,11 @@ export default function Navigation() {
 
   const [ totalMoney, setTotalMoney ] = useState<number>(2500000);
 
-  // const [iconCategoryArray, setIconCategoryArray] = useState<iconsType>({icons: [
-  //   {
-  //     name: 'account-cash-outline',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'desktop-mac-dashboard',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'tools',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'account-cash-outline',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'desktop-mac-dashboard',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'tools',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'account-cash-outline',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'desktop-mac-dashboard',
-  //     color: paletteColors.backgroundLight
-  //   },
-  //   {
-  //     name: 'tools',
-  //     color: paletteColors.backgroundLight
-  //   }
-  // ]});
-
   return (
-    <themeContext.Provider value={{
-      mode,
-      setMode
-    }}>
+    // <themeContext.Provider value={{
+    //   mode,
+    //   setMode
+    // }}>
       <incomesSearchedContext.Provider value={{
         incomesSearchedArray, 
         setIncomesSearchedArray
@@ -189,6 +155,6 @@ export default function Navigation() {
           </totalMoneyContext.Provider>
         </incomesContext.Provider>
       </incomesSearchedContext.Provider>
-    </themeContext.Provider>
+    // </themeContext.Provider>
   )
 }

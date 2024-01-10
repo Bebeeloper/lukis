@@ -17,9 +17,11 @@ export default function HomeScreen() {
   const { login } = useSelector((state: RootState) => state.loginReducer);
   const dispatch = useDispatch();
 
+  const { mode } = useSelector((state: RootState) => state.themeReducer);
+
   const [tabIndexIncomes, setTabIndexIncomes] = useState(0);
   const [tabIndexExpenses, setTabIndexExpenses] = useState(0);
-  const { mode, setMode } = useContext(themeContext);
+  // const { mode, setMode } = useContext(themeContext);
   const [viewWidth, setViewWidth] = useState(Dimensions.get('window').width);
 
   const styles = getStylesHome(mode);

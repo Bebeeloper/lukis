@@ -3,12 +3,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import ExpensesScreen from '../screens/ExpensesScreen';
 import { paletteColors } from '../colors/PaletteColors';
 import { themeContext } from '../context/ThemeContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 const Stack = createStackNavigator();
 
 export default function ExpensesNavigation() {
-
-  const {mode} = useContext(themeContext);
   
   return (
     <Stack.Navigator>

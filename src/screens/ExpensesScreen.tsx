@@ -3,10 +3,15 @@ import React, { useContext } from 'react';
 import { paletteColors } from '../colors/PaletteColors';
 import { themeContext } from '../context/ThemeContext';
 import { Searchbar } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 export default function ExpensesScreen() {
 
-  const {mode} = useContext(themeContext);
+  const { mode } = useSelector((state: RootState) => state.themeReducer);
+  const dispatch = useDispatch();
+
+  // const {mode} = useContext(themeContext);
   const styles = getStylesExpenses(mode);
   const [searchValue, setSearchValue] = React.useState<string>('');
   const onChangeSearch = (value: string) => setSearchValue(value);

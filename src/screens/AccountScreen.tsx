@@ -2,18 +2,22 @@ import { View, Text, SafeAreaView, Switch, StyleSheet, Button } from 'react-nati
 import React, { useContext, useState } from 'react';
 import { themeContext } from '../context/ThemeContext';
 import { paletteColors } from '../colors/PaletteColors';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../store/loginReducer';
+import { RootState } from '../store/store';
+import { darkMode } from '../store/themeReducer';
 
 export default function AccountScreen() {
   
+  const { mode } = useSelector((state: RootState) => state.themeReducer);
   const dispatch = useDispatch();
 
-  const { mode, setMode } = useContext(themeContext);
+  // const { mode, setMode } = useContext(themeContext);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState);
-    setMode(!mode);
+    // setMode(!mode);
+    dispatch(darkMode())
   }
 
   const stylesAcc = getStylesAcc(mode);

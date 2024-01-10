@@ -5,12 +5,17 @@ import { paletteColors } from '../colors/PaletteColors';
 import { themeContext, totalMoneyContext } from '../context/ThemeContext';
 import { IconButton } from 'react-native-paper';
 import { Text } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 const Stack = createStackNavigator();
 
 export default function IncomesNavigation() {
 
-  const {mode} = useContext(themeContext);
+  const { mode } = useSelector((state: RootState) => state.themeReducer);
+  const dispatch = useDispatch();
+
+  // const {mode} = useContext(themeContext);
   const { totalMoney } = useContext(totalMoneyContext);
 
   const numberFormat = (num: number) => {
