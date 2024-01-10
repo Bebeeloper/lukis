@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, Dimensions, Button } from 'react-native'
 import {useContext, useEffect, useState} from 'react'
 // import { getStylesAcc } from './AccountScreen';
 import { themeContext } from '../context/ThemeContext';
@@ -8,8 +8,14 @@ import { paletteColors } from '../colors/PaletteColors';
 import { BarChart, LineChart, PieChart, PopulationPyramid } from "react-native-gifted-charts";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import { lightBlue100 } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import { signIn } from '../store/loginReducer';
 
 export default function HomeScreen() {
+
+  const { login } = useSelector((state: RootState) => state.loginReducer);
+  const dispatch = useDispatch();
 
   const [tabIndexIncomes, setTabIndexIncomes] = useState(0);
   const [tabIndexExpenses, setTabIndexExpenses] = useState(0);
@@ -146,30 +152,49 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center'}}>
-        <View style={{
-          marginRight: 'auto', 
-          marginLeft: 'auto', 
-          padding: 10, 
-          width: '90%', 
-          backgroundColor: `${mode ? paletteColors.blackLight : paletteColors.whiteDark}`, 
-          borderRadius: 10,
-          borderWidth: 0.17,
-          borderColor: `${mode ? '#103A63' : '#DCDCDC'}`
-        }}>
-          <View style={{marginBottom: 15}}>
-            <Text style={{marginBottom: 5, textAlign: 'center', color: paletteColors.limeLight, fontWeight: 'bold'}}>INGRESOS</Text>
-            <SegmentedControlTab
-              tabStyle={{width: '80%', height: 40, backgroundColor: `${mode ? paletteColors.black : paletteColors.white}`, borderColor: paletteColors.limeLight}}
-              tabTextStyle={{color: paletteColors.limeLight}}
-              activeTabStyle={{backgroundColor: paletteColors.limeLight}}
-              values={["Semanal", "Mensual"]}
-              selectedIndex={tabIndexIncomes}
-              onTabPress={(value) => setTabIndexIncomes(value)}
-            />
-          </View>
-          {tabIndexIncomes === 0 ?
-            <View>
+      {login ? 
+        <View style={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center'}}>
+          <View style={{
+            marginRight: 'auto', 
+            marginLeft: 'auto', 
+            padding: 10, 
+            width: '90%', 
+            backgroundColor: `${mode ? paletteColors.blackLight : paletteColors.whiteDark}`, 
+            borderRadius: 10,
+            borderWidth: 0.17,
+            borderColor: `${mode ? '#103A63' : '#DCDCDC'}`
+          }}>
+            <View style={{marginBottom: 15}}>
+              <Text style={{marginBottom: 5, textAlign: 'center', color: paletteColors.limeLight, fontWeight: 'bold'}}>INGRESOS</Text>
+              <SegmentedControlTab
+                tabStyle={{width: '80%', height: 40, backgroundColor: `${mode ? paletteColors.black : paletteColors.white}`, borderColor: paletteColors.limeLight}}
+                tabTextStyle={{color: paletteColors.limeLight}}
+                activeTabStyle={{backgroundColor: paletteColors.limeLight}}
+                values={["Semanal", "Mensual"]}
+                selectedIndex={tabIndexIncomes}
+                onTabPress={(value) => setTabIndexIncomes(value)}
+              />
+            </View>
+            {tabIndexIncomes === 0 ?
+              <View>
+                  <BarChart
+                      width={Dimensions.get('window').width * 0.75}
+                      height={160}
+                      barWidth={20}
+                      noOfSections={5}
+                      barBorderRadius={4}
+                      frontColor="lightgray"
+                      data={dataIncomes}
+                      yAxisThickness={0}
+                      xAxisThickness={0}
+                      yAxisTextStyle={{color: 'gray'}}
+                      isAnimated
+                      onPress = {(item: any, index: any)=>console.log('item', item)}
+                      rulesColor={`${mode ? paletteColors.backgroundLight : 'lightgray'}`}
+                  />
+              </View>
+            :
+              <View>
                 <BarChart
                     width={Dimensions.get('window').width * 0.75}
                     height={160}
@@ -177,58 +202,57 @@ export default function HomeScreen() {
                     noOfSections={5}
                     barBorderRadius={4}
                     frontColor="lightgray"
-                    data={dataIncomes}
+                    data={dataIncomesMonthly}
                     yAxisThickness={0}
                     xAxisThickness={0}
                     yAxisTextStyle={{color: 'gray'}}
                     isAnimated
-                    onPress = {(item: any, index: any)=>console.log('item', item)}
                     rulesColor={`${mode ? paletteColors.backgroundLight : 'lightgray'}`}
                 />
-            </View>
-          :
-            <View>
-              <BarChart
-                  width={Dimensions.get('window').width * 0.75}
-                  height={160}
-                  barWidth={20}
-                  noOfSections={5}
-                  barBorderRadius={4}
-                  frontColor="lightgray"
-                  data={dataIncomesMonthly}
-                  yAxisThickness={0}
-                  xAxisThickness={0}
-                  yAxisTextStyle={{color: 'gray'}}
-                  isAnimated
-                  rulesColor={`${mode ? paletteColors.backgroundLight : 'lightgray'}`}
+              </View>
+            }
+          </View>
+
+          <View style={{
+            marginRight: 'auto', 
+            marginLeft: 'auto', 
+            padding: 10, 
+            width: '90%', 
+            backgroundColor: `${mode ? paletteColors.blackLight : paletteColors.whiteDark}`, 
+            borderRadius: 10,
+            borderWidth: 0.17,
+            borderColor: `${mode ? '#103A63' : '#DCDCDC'}`
+          }}>
+            <View style={{marginBottom: 15}}>
+            <Text style={{marginBottom: 5, textAlign: 'center', color: paletteColors.fireLight, fontWeight: 'bold'}}>GASTOS</Text>
+              <SegmentedControlTab
+                tabStyle={{width: '80%', height: 40, backgroundColor: `${mode ? paletteColors.black : paletteColors.white}`, borderColor: paletteColors.fireLight}}
+                tabTextStyle={{color: paletteColors.fireLight}}
+                activeTabStyle={{backgroundColor: paletteColors.fireLight}}
+                values={["Semanal", "Mensual"]}
+                selectedIndex={tabIndexExpenses}
+                onTabPress={(value) => setTabIndexExpenses(value)}
               />
             </View>
-          }
-        </View>
-
-        <View style={{
-          marginRight: 'auto', 
-          marginLeft: 'auto', 
-          padding: 10, 
-          width: '90%', 
-          backgroundColor: `${mode ? paletteColors.blackLight : paletteColors.whiteDark}`, 
-          borderRadius: 10,
-          borderWidth: 0.17,
-          borderColor: `${mode ? '#103A63' : '#DCDCDC'}`
-        }}>
-          <View style={{marginBottom: 15}}>
-          <Text style={{marginBottom: 5, textAlign: 'center', color: paletteColors.fireLight, fontWeight: 'bold'}}>GASTOS</Text>
-            <SegmentedControlTab
-              tabStyle={{width: '80%', height: 40, backgroundColor: `${mode ? paletteColors.black : paletteColors.white}`, borderColor: paletteColors.fireLight}}
-              tabTextStyle={{color: paletteColors.fireLight}}
-              activeTabStyle={{backgroundColor: paletteColors.fireLight}}
-              values={["Semanal", "Mensual"]}
-              selectedIndex={tabIndexExpenses}
-              onTabPress={(value) => setTabIndexExpenses(value)}
-            />
-          </View>
-          {tabIndexExpenses === 0 ?
-            <View>
+            {tabIndexExpenses === 0 ?
+              <View>
+                  <BarChart
+                      width={Dimensions.get('window').width * 0.75}
+                      height={160}
+                      barWidth={20}
+                      noOfSections={5}
+                      barBorderRadius={4}
+                      frontColor="lightgray"
+                      data={dataExpenses}
+                      yAxisThickness={0}
+                      xAxisThickness={0}
+                      yAxisTextStyle={{color: 'gray'}}
+                      isAnimated 
+                      rulesColor={`${mode ? paletteColors.backgroundLight : 'lightgray'}`}
+                  />
+              </View>
+            :
+              <View>
                 <BarChart
                     width={Dimensions.get('window').width * 0.75}
                     height={160}
@@ -236,34 +260,23 @@ export default function HomeScreen() {
                     noOfSections={5}
                     barBorderRadius={4}
                     frontColor="lightgray"
-                    data={dataExpenses}
+                    data={dataExpensesMonthly}
                     yAxisThickness={0}
                     xAxisThickness={0}
                     yAxisTextStyle={{color: 'gray'}}
-                    isAnimated 
-                    rulesColor={`${mode ? paletteColors.backgroundLight : 'lightgray'}`}
+                    isAnimated
+                    rulesColor={`${mode ? paletteColors.backgroundLight : 'lightgray'}`} 
                 />
-            </View>
-          :
-            <View>
-              <BarChart
-                  width={Dimensions.get('window').width * 0.75}
-                  height={160}
-                  barWidth={20}
-                  noOfSections={5}
-                  barBorderRadius={4}
-                  frontColor="lightgray"
-                  data={dataExpensesMonthly}
-                  yAxisThickness={0}
-                  xAxisThickness={0}
-                  yAxisTextStyle={{color: 'gray'}}
-                  isAnimated
-                  rulesColor={`${mode ? paletteColors.backgroundLight : 'lightgray'}`} 
-              />
-            </View>
-          }
+              </View>
+            }
+          </View>
         </View>
-      </View>
+      :
+        <View>
+          <Text>Hola mundo</Text>
+          <Button title='LogIn' onPress={() => dispatch(signIn())}></Button>
+        </View>
+      }
     </SafeAreaView>
   )
 }

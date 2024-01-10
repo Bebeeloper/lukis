@@ -14,7 +14,6 @@ import AccountNavigation from './AccountNavigation';
 import { paletteColors } from '../colors/PaletteColors';
 import { themeContext, incomesContext, totalMoneyContext, incomesSearchedContext } from '../context/ThemeContext';
 import { incomesType } from '../types/Types';
-import { initDatabase } from '../utils/db';
 
 const Tab = createBottomTabNavigator();
 

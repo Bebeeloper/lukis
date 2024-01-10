@@ -1,10 +1,14 @@
-import { View, Text, SafeAreaView, Switch, StyleSheet } from 'react-native'
+import { View, Text, SafeAreaView, Switch, StyleSheet, Button } from 'react-native'
 import React, { useContext, useState } from 'react';
 import { themeContext } from '../context/ThemeContext';
 import { paletteColors } from '../colors/PaletteColors';
+import { useDispatch } from 'react-redux';
+import { logOut } from '../store/loginReducer';
 
 export default function AccountScreen() {
   
+  const dispatch = useDispatch();
+
   const { mode, setMode } = useContext(themeContext);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
@@ -24,6 +28,7 @@ export default function AccountScreen() {
         onValueChange={toggleSwitch}
         value={isEnabled}
       />
+      <Button title='Logout' onPress={() => dispatch(logOut())}></Button>
     </SafeAreaView>
   )
 
