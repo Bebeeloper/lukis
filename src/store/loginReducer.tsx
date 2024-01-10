@@ -6,7 +6,7 @@ export interface LoginState {
 }
 
 const initialState: LoginState = {
-  login: false,
+  login: true,
 }
 
 export const loginSlice = createSlice({

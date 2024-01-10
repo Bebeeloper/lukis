@@ -23,7 +23,6 @@ const categoryIcons: any = {
 export default function IncomesScreen() {
 
   const { mode } = useSelector((state: RootState) => state.themeReducer);
-  const dispatch = useDispatch();
 
   //////////////////////////////////////////////////////////////////////
 

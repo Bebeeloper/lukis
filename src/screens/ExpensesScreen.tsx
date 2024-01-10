@@ -9,7 +9,6 @@ import { RootState } from '../store/store';
 export default function ExpensesScreen() {
 
   const { mode } = useSelector((state: RootState) => state.themeReducer);
-  const dispatch = useDispatch();
 
   // const {mode} = useContext(themeContext);
   const styles = getStylesExpenses(mode);

@@ -25,7 +25,7 @@ export default function AccountNavigation() {
                   backgroundColor: mode ? paletteColors.black : paletteColors.white
                 },
                 headerTitleStyle: {
-                  fontWeight: 'bold',
+                  fontFamily: 'Poppins_700Bold'
                 },
             }}
         />

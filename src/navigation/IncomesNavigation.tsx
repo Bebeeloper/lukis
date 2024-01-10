@@ -13,7 +13,6 @@ const Stack = createStackNavigator();
 export default function IncomesNavigation() {
 
   const { mode } = useSelector((state: RootState) => state.themeReducer);
-  const dispatch = useDispatch();
 
   // const {mode} = useContext(themeContext);
   const { totalMoney } = useContext(totalMoneyContext);
@@ -41,10 +40,10 @@ export default function IncomesNavigation() {
                 // backgroundColor: paletteColors.limeLight
               },
               headerTitleStyle: {
-                fontWeight: 'bold',
+               fontFamily: 'Poppins_700Bold'
               },
               headerLeft: () => (
-                <Text style={{marginLeft: 20, color: 'white'}}>{numberFormat(totalMoney)}</Text>
+                <Text style={{marginLeft: 20, color: 'white', fontFamily: 'Poppins_400Regular'}}>{numberFormat(totalMoney)}</Text>
                 // <Avatar.Image style={{marginRight: 20}} size={35} source={require('../../assets/avatar-icon.png')} /3
               ),
               headerRight: () => (

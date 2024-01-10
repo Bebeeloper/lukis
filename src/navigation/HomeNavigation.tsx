@@ -11,7 +11,6 @@ const Stack = createStackNavigator();
 export default function HomeNavigation() {
 
   const { mode } = useSelector((state: RootState) => state.themeReducer);
-  const dispatch = useDispatch();
   // const {mode} = useContext(themeContext);
 
   return (
@@ -26,7 +25,7 @@ export default function HomeNavigation() {
                 backgroundColor: mode ? paletteColors.black : paletteColors.white
               },
               headerTitleStyle: {
-                fontWeight: 'bold',
+                fontFamily: 'Poppins_700Bold'
               },
           }}
         />

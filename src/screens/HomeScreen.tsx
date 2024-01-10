@@ -13,6 +13,7 @@ import { RootState } from '../store/store';
 import { signIn } from '../store/loginReducer';
 
 export default function HomeScreen() {
+  
 
   const { login } = useSelector((state: RootState) => state.loginReducer);
   const dispatch = useDispatch();
@@ -22,7 +23,6 @@ export default function HomeScreen() {
   const [tabIndexIncomes, setTabIndexIncomes] = useState(0);
   const [tabIndexExpenses, setTabIndexExpenses] = useState(0);
   // const { mode, setMode } = useContext(themeContext);
-  const [viewWidth, setViewWidth] = useState(Dimensions.get('window').width);
 
   const styles = getStylesHome(mode);
 
@@ -167,10 +167,10 @@ export default function HomeScreen() {
             borderColor: `${mode ? '#103A63' : '#DCDCDC'}`
           }}>
             <View style={{marginBottom: 15}}>
-              <Text style={{marginBottom: 5, textAlign: 'center', color: paletteColors.limeLight, fontWeight: 'bold'}}>INGRESOS</Text>
+              <Text style={{marginBottom: 5, textAlign: 'center', color: paletteColors.limeLight, fontWeight: 'bold', fontFamily: 'Poppins_700Bold'}}>INGRESOS</Text>
               <SegmentedControlTab
                 tabStyle={{width: '80%', height: 40, backgroundColor: `${mode ? paletteColors.black : paletteColors.white}`, borderColor: paletteColors.limeLight}}
-                tabTextStyle={{color: paletteColors.limeLight}}
+                tabTextStyle={{color: paletteColors.limeLight, fontFamily: 'Poppins_400Regular'}}
                 activeTabStyle={{backgroundColor: paletteColors.limeLight}}
                 values={["Semanal", "Mensual"]}
                 selectedIndex={tabIndexIncomes}
@@ -189,7 +189,7 @@ export default function HomeScreen() {
                       data={dataIncomes}
                       yAxisThickness={0}
                       xAxisThickness={0}
-                      yAxisTextStyle={{color: 'gray'}}
+                      yAxisTextStyle={{color: 'gray', fontFamily: 'Poppins_400Regular'}}
                       isAnimated
                       onPress = {(item: any, index: any)=>console.log('item', item)}
                       rulesColor={`${mode ? paletteColors.backgroundLight : 'lightgray'}`}
@@ -207,7 +207,7 @@ export default function HomeScreen() {
                     data={dataIncomesMonthly}
                     yAxisThickness={0}
                     xAxisThickness={0}
-                    yAxisTextStyle={{color: 'gray'}}
+                    yAxisTextStyle={{color: 'gray', fontFamily: 'Poppins_400Regular'}}
                     isAnimated
                     rulesColor={`${mode ? paletteColors.backgroundLight : 'lightgray'}`}
                 />
@@ -226,10 +226,10 @@ export default function HomeScreen() {
             borderColor: `${mode ? '#103A63' : '#DCDCDC'}`
           }}>
             <View style={{marginBottom: 15}}>
-            <Text style={{marginBottom: 5, textAlign: 'center', color: paletteColors.fireLight, fontWeight: 'bold'}}>GASTOS</Text>
+            <Text style={{marginBottom: 5, textAlign: 'center', color: paletteColors.fireLight, fontWeight: 'bold', fontFamily: 'Poppins_700Bold'}}>GASTOS</Text>
               <SegmentedControlTab
                 tabStyle={{width: '80%', height: 40, backgroundColor: `${mode ? paletteColors.black : paletteColors.white}`, borderColor: paletteColors.fireLight}}
-                tabTextStyle={{color: paletteColors.fireLight}}
+                tabTextStyle={{color: paletteColors.fireLight, fontFamily: 'Poppins_400Regular'}}
                 activeTabStyle={{backgroundColor: paletteColors.fireLight}}
                 values={["Semanal", "Mensual"]}
                 selectedIndex={tabIndexExpenses}
@@ -248,7 +248,7 @@ export default function HomeScreen() {
                       data={dataExpenses}
                       yAxisThickness={0}
                       xAxisThickness={0}
-                      yAxisTextStyle={{color: 'gray'}}
+                      yAxisTextStyle={{color: 'gray', fontFamily: 'Poppins_400Regular'}}
                       isAnimated 
                       rulesColor={`${mode ? paletteColors.backgroundLight : 'lightgray'}`}
                   />
@@ -265,7 +265,7 @@ export default function HomeScreen() {
                     data={dataExpensesMonthly}
                     yAxisThickness={0}
                     xAxisThickness={0}
-                    yAxisTextStyle={{color: 'gray'}}
+                    yAxisTextStyle={{color: 'gray', fontFamily: 'Poppins_400Regular'}}
                     isAnimated
                     rulesColor={`${mode ? paletteColors.backgroundLight : 'lightgray'}`} 
                 />

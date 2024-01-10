@@ -1,28 +1,26 @@
-import React, { useContext } from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import ExpensesScreen from '../screens/ExpensesScreen';
+import { View, Text } from 'react-native';
+import React from 'react';
 import { paletteColors } from '../colors/PaletteColors';
-import { themeContext } from '../context/ThemeContext';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/store';
+import LoginScreen from '../screens/LoginScreen';
 
 const Stack = createStackNavigator();
 
-export default function ExpensesNavigation() {
-  
+export default function LoginNavigation() {
   return (
     <Stack.Navigator>
         <Stack.Screen 
-            name='Expenses'
-            component={ExpensesScreen}
+            name='Login'
+            component={LoginScreen}
             options={{
-              title: 'Egresos',
+              headerShown: false,
+              title: 'Login',
               headerTintColor: paletteColors.white,
               headerStyle: {
                 backgroundColor: paletteColors.fireLight
               },
               headerTitleStyle: {
-                fontFamily: 'Poppins_700Bold'
+                fontWeight: 'bold'
               },
           }}
         />
