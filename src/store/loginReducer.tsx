@@ -6,15 +6,20 @@ export interface LoginState {
 }
 
 const initialState: LoginState = {
-  login: true,
+  login: false,
 }
 
 export const loginSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    signIn: (state) => {
-      state.login = true;
+    // signIn: (state) => {
+    //   state.login = true;
+    // },
+    signIn: (state, action) => {      
+      if (action.payload[0] === 'kevind@admin.com' && action.payload[1] === '1234') {
+        state.login = true;
+      }
     },
     logOut: (state) => {
       state.login = false;

@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, StyleSheet, Dimensions, Button } from 'react-native'
-import {useContext, useEffect, useState} from 'react'
+import { useState} from 'react'
 // import { getStylesAcc } from './AccountScreen';
 import { themeContext } from '../context/ThemeContext';
 import { paletteColors } from '../colors/PaletteColors';

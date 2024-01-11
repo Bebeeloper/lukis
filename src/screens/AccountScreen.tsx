@@ -22,6 +22,12 @@ export default function AccountScreen() {
 
   const stylesAcc = getStylesAcc(mode);
 
+  const logoutTheApp = () => {
+    setTimeout(() => {
+      dispatch(logOut());
+    }, 2000);
+  }
+
   return (
     <SafeAreaView style={stylesAcc.container}>
       <Text style={stylesAcc.accountText}>Cuenta</Text>
@@ -32,7 +38,7 @@ export default function AccountScreen() {
         onValueChange={toggleSwitch}
         value={isEnabled}
       />
-      <Button title='Logout' onPress={() => dispatch(logOut())}></Button>
+      <Button title='Logout' onPress={() => logoutTheApp()}></Button>
     </SafeAreaView>
   )
 

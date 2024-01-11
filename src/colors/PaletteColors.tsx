@@ -10,6 +10,8 @@ export const paletteColors = {
     limeLight: '#85C254',
     limeDark: '#798F30',
     purple: '#7A6EED',
+    purpleLight: '#A399FF',
+    purpleDark: '#3C357F',
     backgroundLight: '#24242A',
     fireLight: '#BB2E2E',
     fire: '#FF0000',

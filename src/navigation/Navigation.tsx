@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Text, StatusBar, Platform } from 'react-native'
+import React, { useState } from 'react'
+import { Text, StatusBar, Platform, Image, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
@@ -73,7 +73,12 @@ export default function Navigation() {
             setTotalMoney
           }}>
             {!hola ? 
-              <Text>Perra</Text>
+              <View style={{width: '100%', height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Image
+                  style={{width: 150, height: 150}}
+                  source={require('../../assets/images/coins.gif')}
+                />
+              </View>
             :
               login ? 
                 <>
