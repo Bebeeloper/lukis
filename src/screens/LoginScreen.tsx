@@ -1,14 +1,16 @@
 import { Text, TextInput, Image, KeyboardAvoidingView, Platform, TouchableOpacity, View} from 'react-native'
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { paletteColors } from '../colors/PaletteColors'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { signIn } from '../store/loginReducer';
 import { Button, IconButton } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
 export default function LoginScreen() {
 
+  const navigation = useNavigation();
   const { login } = useSelector((state: RootState) => state.loginReducer);
   const dispatch = useDispatch();
 
@@ -34,6 +36,7 @@ export default function LoginScreen() {
     setTimeout(() => { 
       dispatch(signIn([email.toLowerCase(), password]));
       setLoadingLogin(false);
+      navigation.navigate('Home');
     }, 1000);
   }
 

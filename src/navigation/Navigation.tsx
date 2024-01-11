@@ -3,6 +3,7 @@ import { Text, StatusBar, Platform, Image, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 // Import Navigations components
 import HomeNavigation from './HomeNavigation';
@@ -16,7 +17,7 @@ import { themeContext, incomesContext, totalMoneyContext, incomesSearchedContext
 import { incomesType } from '../types/Types';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import LoginNavigation from './LoginNavigation';
+// import LoginNavigation from './LoginNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -80,7 +81,7 @@ export default function Navigation() {
                 />
               </View>
             :
-              login ? 
+              // login ? 
                 <>
                   <StatusBar barStyle={(tabIndex === 1 || tabIndex === 2) || mode && Platform.OS != 'android' ? 'light-content' : 'dark-content'}/>
                   <Tab.Navigator 
@@ -89,13 +90,15 @@ export default function Navigation() {
                       activeTintColor: paletteColors.purple,
                       style: {
                         backgroundColor: mode ? paletteColors.black : paletteColors.white
-                      }
+                      },
+                      
                     }}
                   >
-                    <Tab.Screen 
+                    <Tab.Screen
                       name='Home' 
                       component={HomeNavigation} 
                       options={{
+                        tabBarVisible: login ? true : false,
                         tabBarLabel: ({focused, color}) => (
                           <Text style={{
                             fontSize: 10,
@@ -165,6 +168,7 @@ export default function Navigation() {
                       name='Account' 
                       component={AccountNavigation}
                       options={{
+                        tabBarVisible: login ? true : false,
                         tabBarLabel: ({focused, color}) => (
                           <Text style={{
                             fontSize: 10,
@@ -184,8 +188,8 @@ export default function Navigation() {
                     />
                   </Tab.Navigator>
                 </>
-              :
-                <LoginNavigation></LoginNavigation>
+              // :
+                // <LoginNavigation></LoginNavigation>
             }
           </totalMoneyContext.Provider>
         </incomesContext.Provider>

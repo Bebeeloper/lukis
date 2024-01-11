@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, StyleSheet, Dimensions, Button } from 'react-native'
-import { useState} from 'react'
+import { useEffect, useState} from 'react'
 // import { getStylesAcc } from './AccountScreen';
 import { themeContext } from '../context/ThemeContext';
 import { paletteColors } from '../colors/PaletteColors';
@@ -11,10 +11,11 @@ import { lightBlue100 } from 'react-native-paper/lib/typescript/styles/themes/v2
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { signIn } from '../store/loginReducer';
+import { useNavigation } from '@react-navigation/native';
 
 export default function HomeScreen() {
   
-
+  const navigation = useNavigation();
   const { login } = useSelector((state: RootState) => state.loginReducer);
   const dispatch = useDispatch();
 
@@ -22,7 +23,6 @@ export default function HomeScreen() {
 
   const [tabIndexIncomes, setTabIndexIncomes] = useState(0);
   const [tabIndexExpenses, setTabIndexExpenses] = useState(0);
-  // const { mode, setMode } = useContext(themeContext);
 
   const styles = getStylesHome(mode);
 
@@ -152,9 +152,15 @@ export default function HomeScreen() {
     ), labelTextStyle: {color: 'gray'}},
   ];
 
+  // useEffect(() => {
+  //   if (!login) {
+  //     navigation.navigate('LoginScreen');
+  //   }
+  // }, []);
+
   return (
     <SafeAreaView style={styles.container}>
-      {login ? 
+      {/* {login ?  */}
         <View style={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center'}}>
           <View style={{
             marginRight: 'auto', 
@@ -273,12 +279,12 @@ export default function HomeScreen() {
             }
           </View>
         </View>
-      :
+      {/* :
         <View>
           <Text>Hola mundo</Text>
           <Button title='LogIn' onPress={() => dispatch(signIn())}></Button>
         </View>
-      }
+      }  */}
     </SafeAreaView>
   )
 }
