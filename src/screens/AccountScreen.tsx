@@ -6,9 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../store/loginReducer';
 import { RootState } from '../store/store';
 import { darkMode } from '../store/themeReducer';
+// import { useNavigation } from '@react-navigation/native';
 
 export default function AccountScreen() {
   
+  // const navigation = useNavigation();
+
   const { mode } = useSelector((state: RootState) => state.themeReducer);
   const dispatch = useDispatch();
 
@@ -23,9 +26,10 @@ export default function AccountScreen() {
   const stylesAcc = getStylesAcc(mode);
 
   const logoutTheApp = () => {
-    setTimeout(() => {
+    // setTimeout(() => {
       dispatch(logOut());
-    }, 2000);
+      // navigation.navigate('LoginScreen');
+    // }, 2000);
   }
 
   return (

@@ -1,10 +1,11 @@
-import { Text, TextInput, Image, KeyboardAvoidingView, Platform, TouchableOpacity, View, Button} from 'react-native'
+import { Text, TextInput, Image, KeyboardAvoidingView, Platform, TouchableOpacity, View} from 'react-native'
 import React, { useState } from 'react'
 import { paletteColors } from '../colors/PaletteColors'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { signIn } from '../store/loginReducer';
+import { Button, IconButton } from 'react-native-paper';
 
 export default function LoginScreen() {
 
@@ -14,6 +15,7 @@ export default function LoginScreen() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
 
   const onChangeEmail = (text: string) => {
     setEmail(text);
@@ -28,8 +30,11 @@ export default function LoginScreen() {
   };
 
   const loginToHome = () => {
-    // dispatch(signIn(['kevind@admin.com', '1234']));
-    dispatch(signIn([email, password]));
+    setLoadingLogin(true);
+    setTimeout(() => { 
+      dispatch(signIn([email.toLowerCase(), password]));
+      setLoadingLogin(false);
+    }, 1000);
   }
 
   return (
@@ -45,7 +50,7 @@ export default function LoginScreen() {
         />
         <Text style={{padding: 20, color: paletteColors.purple, fontFamily: 'Poppins_700Bold', fontSize: 30}}>LOGIN</Text>
         <TextInput
-          style={{marginBottom: 20, paddingLeft: 20, paddingRight: 20, width: '90%', height: 60, borderRadius: 15, borderWidth: 0.17, fontFamily: 'Poppins_400Regular', fontSize: 20}}
+          style={{marginBottom: 20, paddingLeft: 20, paddingRight: 20, width: '90%', height: 60, borderRadius: 15, borderWidth: 0.17, fontFamily: 'Poppins_400Regular', fontSize: 15}}
           inputMode='email'
           keyboardType='default'
           value={email}
@@ -71,7 +76,7 @@ export default function LoginScreen() {
               borderRadius: 15,
               borderWidth: 0.17,
               fontFamily: 'Poppins_400Regular',
-              fontSize: 20,
+              fontSize: 15,
             }}
             inputMode='text'
             secureTextEntry={!isPasswordVisible}
@@ -94,7 +99,22 @@ export default function LoginScreen() {
             />
           </TouchableOpacity>
         </View>
-        <Button title='login' onPress={() => loginToHome()} />
+        {/* <TouchableOpacity style={{marginTop: 20, width: '90%', height: 60, borderRadius: 15, backgroundColor: paletteColors.purple}}>
+          <Text>Login</Text>
+        </TouchableOpacity> */}
+        <Button 
+          style={{marginTop: 20, padding: 10, width: '90%'}}
+          buttonColor={paletteColors.purple} 
+          // loading={true}
+          icon="login" 
+          mode="contained" 
+          onPress={() => loginToHome()}
+          labelStyle={{fontFamily: 'Poppins_700Bold', fontSize: 15}}
+          loading={loadingLogin}
+        >
+          Login
+        </Button>
+        {/* <Button title='login' onPress={() => loginToHome()} /> */}
       </KeyboardAvoidingView>
     </SafeAreaView>
   )
