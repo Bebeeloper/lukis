@@ -7,6 +7,7 @@ import { RootState } from '../store/store';
 import { signIn } from '../store/loginReducer';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 export default function LoginScreen() {
 
@@ -60,6 +61,7 @@ export default function LoginScreen() {
           value={email}
           onChange={(event) => onChangeEmail(event.nativeEvent.text)}
           placeholder='Email'
+          placeholderTextColor={mode ? paletteColors.light : paletteColors.light}
         />
         <View style={styles.keyboardAvoiding.passwordContainer}>
           <TextInput
@@ -69,38 +71,42 @@ export default function LoginScreen() {
             value={password}
             onChangeText={(text) => onChangePassword(text)}
             placeholder='Password'
+            placeholderTextColor={mode ? paletteColors.light : paletteColors.light}
             // clearTextOnFocus={false}
           />
           <TouchableOpacity
             style={styles.keyboardAvoiding.passwordContainer.touchableOpacity}
             onPress={togglePasswordVisibility}
           >
-            <Image
-              source={
-                isPasswordVisible
-                  ? require('../../assets/icons/password-showed.png') // Ruta de tu icono de ojo cerrado 
-                  : require('../../assets/icons/password-hided.png') // Ruta de tu icono de ojo abierto
-              }
-              style={styles.keyboardAvoiding.passwordContainer.touchableOpacity.Image}
-            />
+            <Icon name={isPasswordVisible ? 'eye' : 'eye-slash'} color={mode ? paletteColors.purpleLight : 'black'} size={25}/>
+            {/* <FontAwesomeIcon icon="far fa-eye-slash" /> */}
           </TouchableOpacity>
         </View>
-        {/* <TouchableOpacity style={{marginTop: 20, width: '90%', height: 60, borderRadius: 15, backgroundColor: paletteColors.purple}}>
-          <Text>Login</Text>
-        </TouchableOpacity> */}
         <Button 
-          style={{marginTop: 20, padding: 10, width: '90%'}}
-          buttonColor={paletteColors.purple} 
+          style={styles.keyboardAvoiding.loginButton}
+          buttonColor={mode ? paletteColors.purpleLight : paletteColors.purple} 
           // loading={true}
-          icon="login" 
+          // icon="login"
+          icon={({ size, color }) => (
+            <Icon name="sign-in-alt" size={30} color={paletteColors.white} />
+          )}
           mode="contained" 
           onPress={() => loginToHome()}
-          labelStyle={{fontFamily: 'Poppins_700Bold', fontSize: 15}}
+          labelStyle={styles.keyboardAvoiding.loginButton.label}
           loading={loadingLogin}
+          // contentStyle={{justifyContent: 'center', alignItems: 'center'}}
+          
         >
           Login
         </Button>
-        {/* <Button title='login' onPress={() => loginToHome()} /> */}
+        <View style={styles.keyboardAvoiding.createAccountContainer}>
+          <Text style={styles.keyboardAvoiding.createAccountContainer.question}>
+            ¿No tenés cuenta ve? 
+          </Text>
+          <Text style={styles.keyboardAvoiding.createAccountContainer.goCreate}>
+            ¡Creála ome!
+          </Text>
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   )
@@ -108,9 +114,9 @@ export default function LoginScreen() {
 
 export const getStylesLogin = (mode: boolean) => StyleSheet.create({
   safeArea: {
-    width: '100%', 
-    height: '100%', 
-    backgroundColor: paletteColors.white
+    width: '100%',
+    height: '100%',
+    backgroundColor: mode ? paletteColors.black : paletteColors.white
   },
   keyboardAvoiding: {
     width: '100%', 
@@ -123,7 +129,7 @@ export const getStylesLogin = (mode: boolean) => StyleSheet.create({
     },
     title: {
       padding: 20, 
-      color: paletteColors.purple, 
+      color: mode ? paletteColors.purpleLight : paletteColors.purple, 
       fontFamily: 'Poppins_700Bold', 
       fontSize: 30
     },
@@ -133,9 +139,10 @@ export const getStylesLogin = (mode: boolean) => StyleSheet.create({
       paddingRight: 20, 
       width: '90%' as '90%', 
       height: 60, 
+      color: mode ? paletteColors.purpleLight : 'black',
       borderRadius: 15, 
       borderWidth: 1, 
-      borderColor: paletteColors.purple,
+      borderColor: mode ? paletteColors.purpleLight :paletteColors.purple,
       fontFamily: 'Poppins_400Regular' as string, 
       fontSize: 15
     },
@@ -148,20 +155,52 @@ export const getStylesLogin = (mode: boolean) => StyleSheet.create({
         paddingRight: 65,
         width: '100%' as '100%',
         height: '100%' as '100%',
+        color: mode ? paletteColors.purpleLight : 'black',
         borderRadius: 15,
         borderWidth: 1,
-        borderColor: paletteColors.purple,
+        borderColor: mode ? paletteColors.purpleLight : paletteColors.purple,
         fontFamily: 'Poppins_400Regular',
         fontSize: 15
       },
       touchableOpacity: { 
-        position: 'absolute' as 'absolute', 
-        top: 15, 
-        right: 20,
+        position: 'absolute' as 'absolute',
+        top: 0,
+        right: 20, 
+        bottom: 0,
+        justifyContent: 'center' as 'center', 
+        // alignItems: 'center',
         'Image': {
           width: 30, 
           height: 30
         }
+      }
+    },
+    loginButton: {
+      marginTop: 20,
+      width: '90%' as '90%',
+      borderRadius: 15,
+      label: {
+        paddingTop: 12, 
+        paddingBottom: 5,
+        fontFamily: 'Poppins_700Bold', 
+        fontSize: 20,
+      }
+    },
+    createAccountContainer: {
+      marginTop: 40,
+      marginBottom: 40,
+      width: '90%' as '90%',
+      flexDirection: 'row' as 'row',
+      justifyContent: 'space-around' as 'space-around',
+      question: {
+        color: mode ? paletteColors.whiteLight : 'black',
+        fontSize: 16,
+        fontFamily: 'Poppins_400Regular',
+      },
+      goCreate: {
+        fontSize: 16,
+        fontFamily: 'Poppins_400Regular',
+        color: mode ? paletteColors.purpleLight : paletteColors.purple
       }
     }
   }
