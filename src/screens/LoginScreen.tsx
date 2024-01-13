@@ -8,12 +8,14 @@ import { signIn } from '../store/loginReducer';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { User, loginPost } from '../store/userReducer';
 
 export default function LoginScreen() {
 
   const navigation = useNavigation();
   // const { login } = useSelector((state: RootState) => state.loginReducer);
   const { mode } = useSelector((state: RootState) => state.themeReducer);
+  const { loading, user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState<string>('');
@@ -33,13 +35,32 @@ export default function LoginScreen() {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const loginToHome = () => {
-    setLoadingLogin(true);
-    setTimeout(() => { 
-      dispatch(signIn([email.toLowerCase(), password]));
-      setLoadingLogin(false);
+  // const loginToHome = () => {
+  //   setLoadingLogin(true);
+  //   setTimeout(() => { 
+  //     dispatch(signIn([email.toLowerCase(), password]));
+  //     setLoadingLogin(false);
+  //     navigation.navigate('Home');
+  //   }, 1000);
+  // }
+
+  const getLoginResponse = async () => {    
+    try {
+      
+      let body: User = {
+        // username: 'mor_2314', 
+        // password: '83r5^_'
+        username: email.toLowerCase(), 
+        password: password
+      }
+      const result = await dispatch(loginPost(body) as any);
+      dispatch(signIn());
+      
       navigation.navigate('Home');
-    }, 1000);
+      
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const styles = getStylesLogin(mode);
@@ -78,7 +99,7 @@ export default function LoginScreen() {
             style={styles.keyboardAvoiding.passwordContainer.touchableOpacity}
             onPress={togglePasswordVisibility}
           >
-            <Icon name={isPasswordVisible ? 'eye' : 'eye-slash'} color={mode ? paletteColors.purpleLight : 'black'} size={25}/>
+            <Icon name={isPasswordVisible ? 'eye' : 'eye-slash'} color={mode ? paletteColors.purpleLight : paletteColors.purple} size={25}/>
             {/* <FontAwesomeIcon icon="far fa-eye-slash" /> */}
           </TouchableOpacity>
         </View>
@@ -91,9 +112,10 @@ export default function LoginScreen() {
             <Icon name="sign-in-alt" size={30} color={paletteColors.white} />
           )}
           mode="contained" 
-          onPress={() => loginToHome()}
+          onPress={() => getLoginResponse()}
           labelStyle={styles.keyboardAvoiding.loginButton.label}
-          loading={loadingLogin}
+          // loading={loadingLogin}
+          loading={loading}
           // contentStyle={{justifyContent: 'center', alignItems: 'center'}}
           
         >
@@ -139,7 +161,7 @@ export const getStylesLogin = (mode: boolean) => StyleSheet.create({
       paddingRight: 20, 
       width: '90%' as '90%', 
       height: 60, 
-      color: mode ? paletteColors.purpleLight : 'black',
+      color: mode ? paletteColors.purpleLight : paletteColors.purple,
       borderRadius: 15, 
       borderWidth: 1, 
       borderColor: mode ? paletteColors.purpleLight :paletteColors.purple,
@@ -155,7 +177,7 @@ export const getStylesLogin = (mode: boolean) => StyleSheet.create({
         paddingRight: 65,
         width: '100%' as '100%',
         height: '100%' as '100%',
-        color: mode ? paletteColors.purpleLight : 'black',
+        color: mode ? paletteColors.purpleLight : paletteColors.purple,
         borderRadius: 15,
         borderWidth: 1,
         borderColor: mode ? paletteColors.purpleLight : paletteColors.purple,

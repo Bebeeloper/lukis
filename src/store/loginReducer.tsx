@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface LoginState {
   login: boolean
@@ -16,10 +15,10 @@ export const loginSlice = createSlice({
     // signIn: (state) => {
     //   state.login = true;
     // },
-    signIn: (state, action) => {      
-      if (action.payload[0] === 'kevind@admin.com' && action.payload[1] === '1234') {
+    signIn: (state) => {      
+      // if (action.payload[0] === 'kevind@admin.com' && action.payload[1] === '1234') {
         state.login = true;
-      }
+      // }
     },
     logOut: (state) => {
       state.login = false;
