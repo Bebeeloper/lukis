@@ -48,6 +48,14 @@ export default function Navigation() {
       price: 2500000,
       date: '02/07/09',
       category: 'nomina'
+    },
+    {
+      id: 1,
+      name: 'Asesoría',
+      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum',
+      price: 2500000,
+      date: '02/07/09',
+      category: 'nomina'
     }
   ]});
   

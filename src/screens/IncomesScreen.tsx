@@ -478,7 +478,7 @@ export const getStylesIncomes = (mode: boolean) => StyleSheet.create({
     marginRight: 'auto',
     width: '90%',
     borderRadius: 20,
-    backgroundColor: mode ? paletteColors.backgroundLight : '',
+    backgroundColor: mode ? paletteColors.backgroundLight : paletteColors.white,
     borderWidth: 0.3,
     borderColor: mode ? '' : paletteColors.light,
     // color: 'red !important'

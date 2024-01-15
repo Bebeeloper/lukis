@@ -15,12 +15,8 @@ export default function AccountScreen() {
   const { mode } = useSelector((state: RootState) => state.themeReducer);
   const dispatch = useDispatch();
 
-  // const { mode, setMode } = useContext(themeContext);
-  const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState);
-    // setMode(!mode);
-    dispatch(darkMode())
+    dispatch(darkMode());
   }
 
   const stylesAcc = getStylesAcc(mode);
@@ -37,10 +33,10 @@ export default function AccountScreen() {
       <Text style={stylesAcc.accountText}>Cuenta</Text>
       <Switch
         trackColor={{false: paletteColors.white, true: paletteColors.purple}}
-        thumbColor={isEnabled ? paletteColors.white : 'white'}
+        thumbColor={mode ? paletteColors.white : 'white'}
         ios_backgroundColor={paletteColors.white}
         onValueChange={toggleSwitch}
-        value={isEnabled}
+        value={mode}
       />
       <Button title='Logout' onPress={() => logoutTheApp()}></Button>
     </SafeAreaView>
