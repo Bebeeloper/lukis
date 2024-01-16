@@ -12,13 +12,8 @@ export const loginSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    // signIn: (state) => {
-    //   state.login = true;
-    // },
     signIn: (state) => {      
-      // if (action.payload[0] === 'kevind@admin.com' && action.payload[1] === '1234') {
-        state.login = true;
-      // }
+      state.login = true;
     },
     logOut: (state) => {
       state.login = false;

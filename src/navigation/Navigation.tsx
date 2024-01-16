@@ -3,7 +3,6 @@ import { Text, StatusBar, Platform, Image, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 // Import Navigations components
 import HomeNavigation from './HomeNavigation';
@@ -13,17 +12,20 @@ import AccountNavigation from './AccountNavigation';
 
 // Import resources
 import { paletteColors } from '../colors/PaletteColors';
-import { themeContext, incomesContext, totalMoneyContext, incomesSearchedContext } from '../context/ThemeContext';
+import { incomesContext, totalMoneyContext, incomesSearchedContext } from '../context/ThemeContext';
 import { incomesType } from '../types/Types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-// import LoginNavigation from './LoginNavigation';
 
 const Tab = createBottomTabNavigator();
 
 export default function Navigation() {
 
-  const [hola, setHola] = useState(false);
+  // Global states
+  const { mode } = useSelector((state: RootState) => state.themeReducer);
+  const { login } = useSelector((state: RootState) => state.loginReducer);
+
+  const [fontsLoading, setFontsLoading] = useState(false);
   const [fontsLoaded, fontError] = useFonts({
     Poppins_400Regular,
     Poppins_700Bold
@@ -31,12 +33,9 @@ export default function Navigation() {
 
   if (!fontsLoaded && !fontError) {
     setTimeout(() => {
-      setHola(true);
+      setFontsLoading(true);
     }, 5000);
   }
-
-  const { mode } = useSelector((state: RootState) => state.themeReducer);
-  const { login } = useSelector((state: RootState) => state.loginReducer);
 
   // const [mode, setMode] = useState<boolean>(false);
   const [tabIndex, setTabIndex] = useState<number>(0);
@@ -81,7 +80,7 @@ export default function Navigation() {
             totalMoney, 
             setTotalMoney
           }}>
-            {!hola ? 
+            {!fontsLoading ? 
               <View style={{width: '100%', height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                 <Image
                   style={{width: 150, height: 150}}
