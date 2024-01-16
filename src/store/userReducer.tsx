@@ -1,29 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
+import { User, userState } from './types/types';
+import { EXPO_PUBLIC_API_BASEURL } from "@env";
+console.log('Aquí está imprimiendo la variable de entorno: ', EXPO_PUBLIC_API_BASEURL);
 
-export interface User {
-    username: string,
-    password: string,
-}
-
-export interface userState {
-  loading: boolean,
-  user: User,
-  error: string | undefined
-}
 
 const initialState: userState = {
-  loading: false,
-  user: {
-    username: '',
-    password: ''
-  },
-  error: ''
+  loadingLogin: false,
+  token: '',
+  errorLogin: ''
 }
 
 export const loginPost = createAsyncThunk('user/loginPost', async (user: User) => {
 
-    const response = await axios.post('https://fakestoreapi.com/auth/login', {
+    const response = await axios.post(`${EXPO_PUBLIC_API_BASEURL}/auth/login`, {
         username: user.username,
         password: user.password
     }, 
@@ -38,24 +28,24 @@ export const loginPost = createAsyncThunk('user/loginPost', async (user: User) =
 });
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: 'token',
   initialState,
   reducers: {
      
   },
   extraReducers: (builder) =>{
     builder.addCase(loginPost.pending, (state) => {
-        state.loading = true;
+        state.loadingLogin = true;
     });
     builder.addCase(loginPost.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-        state.error = '';
+        state.loadingLogin = false;
+        state.token = action.payload;
+        state.errorLogin = '';
     });
     builder.addCase(loginPost.rejected, (state, action) => {
-        state.loading = false;
-        state.user = {username: '', password: ''};
-        state.error = action.error.message;
+        state.loadingLogin = false;
+        state.token = '';
+        state.errorLogin = action.error.message;
     });
   }
 })

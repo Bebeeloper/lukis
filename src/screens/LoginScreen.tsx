@@ -8,20 +8,19 @@ import { signIn } from '../store/loginReducer';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { User, loginPost } from '../store/userReducer';
+import { loginPost } from '../store/userReducer';
+import { User } from '../store/types/types';
 
 export default function LoginScreen() {
 
   const navigation = useNavigation();
-  // const { login } = useSelector((state: RootState) => state.loginReducer);
   const { mode } = useSelector((state: RootState) => state.themeReducer);
-  const { loading, user } = useSelector((state: RootState) => state.user);
+  const { loadingLogin } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
 
   const onChangeEmail = (text: string) => {
     setEmail(text);
@@ -34,15 +33,6 @@ export default function LoginScreen() {
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
-
-  // const loginToHome = () => {
-  //   setLoadingLogin(true);
-  //   setTimeout(() => { 
-  //     dispatch(signIn([email.toLowerCase(), password]));
-  //     setLoadingLogin(false);
-  //     navigation.navigate('Home');
-  //   }, 1000);
-  // }
 
   const getLoginResponse = async () => {    
     try {
@@ -115,7 +105,7 @@ export default function LoginScreen() {
           onPress={() => getLoginResponse()}
           labelStyle={styles.keyboardAvoiding.loginButton.label}
           // loading={loadingLogin}
-          loading={loading}
+          loading={loadingLogin}
           // contentStyle={{justifyContent: 'center', alignItems: 'center'}}
           
         >

@@ -13,6 +13,9 @@ import { RootState } from '../store/store';
 import { signIn } from '../store/loginReducer';
 import { useNavigation } from '@react-navigation/native';
 
+import { EXPO_PUBLIC_API_BASEURL } from "@env";
+
+
 export default function HomeScreen() {
   
   const navigation = useNavigation();
@@ -172,6 +175,7 @@ export default function HomeScreen() {
             borderWidth: 0.17,
             borderColor: `${mode ? '#103A63' : '#DCDCDC'}`
           }}>
+            <Text>{EXPO_PUBLIC_API_BASEURL} Hola mundo</Text>
             <View style={{marginBottom: 15}}>
               <Text style={{marginBottom: 5, textAlign: 'center', color: paletteColors.limeLight, fontWeight: 'bold', fontFamily: 'Poppins_700Bold'}}>INGRESOS</Text>
               <SegmentedControlTab
