@@ -1,12 +1,15 @@
 import React, { useContext } from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import IncomesScreen from '../screens/IncomesScreen';
 import { paletteColors } from '../colors/PaletteColors';
 import { themeContext, totalMoneyContext } from '../context/ThemeContext';
 import { IconButton } from 'react-native-paper';
 import { Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
+
+// Import screens
+import IncomesScreen from '../screens/IncomesScreen';
+import AddIncomeScreen from '../screens/AddIncomeScreen';
 
 const Stack = createStackNavigator();
 
@@ -37,25 +40,42 @@ export default function IncomesNavigation() {
               headerTintColor: paletteColors.white,
               headerStyle: {
                 backgroundColor: !mode ? paletteColors.limeLight : paletteColors.limeDark
-                // backgroundColor: paletteColors.limeLight
               },
               headerTitleStyle: {
                fontFamily: 'Poppins_700Bold'
               },
               headerLeft: () => (
                 <Text style={{marginLeft: 20, color: 'white', fontFamily: 'Poppins_400Regular'}}>{numberFormat(totalMoney)}</Text>
-                // <Avatar.Image style={{marginRight: 20}} size={35} source={require('../../assets/avatar-icon.png')} /3
               ),
               headerRight: () => (
                 <IconButton
-                  // style={{marginRight: 20}}
                   icon="account-circle"
                   iconColor={paletteColors.white}
                   size={30}
-                  onPress={() => (console.log('Pressing account button'))
-                  }
+                  // onPress={}
                 />
-                // <Avatar.Image style={{marginRight: 20}} size={35} source={require('../../assets/avatar-icon.png')} /3
+              ),
+          }}
+        />
+        <Stack.Screen 
+            name='AddIncome'
+            component={AddIncomeScreen}
+            options={{
+              title: 'Añadir ingreso',
+              headerTintColor: paletteColors.white,
+              headerStyle: {
+                backgroundColor: !mode ? paletteColors.limeLight : paletteColors.limeDark
+              },
+              headerTitleStyle: {
+               fontFamily: 'Poppins_700Bold'
+              },
+              headerRight: () => (
+                <IconButton
+                  icon="account-circle"
+                  iconColor={paletteColors.white}
+                  size={30}
+                  // onPress={}
+                />
               ),
           }}
         />

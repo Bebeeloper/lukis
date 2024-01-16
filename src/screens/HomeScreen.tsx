@@ -23,6 +23,7 @@ export default function HomeScreen() {
   const dispatch = useDispatch();
 
   const { mode } = useSelector((state: RootState) => state.themeReducer);
+  const { access_token } = useSelector((state: RootState) => state.user);
 
   const [tabIndexIncomes, setTabIndexIncomes] = useState(0);
   const [tabIndexExpenses, setTabIndexExpenses] = useState(0);
@@ -175,7 +176,6 @@ export default function HomeScreen() {
             borderWidth: 0.17,
             borderColor: `${mode ? '#103A63' : '#DCDCDC'}`
           }}>
-            <Text>{EXPO_PUBLIC_API_BASEURL} Hola mundo</Text>
             <View style={{marginBottom: 15}}>
               <Text style={{marginBottom: 5, textAlign: 'center', color: paletteColors.limeLight, fontWeight: 'bold', fontFamily: 'Poppins_700Bold'}}>INGRESOS</Text>
               <SegmentedControlTab
@@ -201,7 +201,7 @@ export default function HomeScreen() {
                       xAxisThickness={0}
                       yAxisTextStyle={{color: 'gray', fontFamily: 'Poppins_400Regular'}}
                       isAnimated
-                      onPress = {(item: any, index: any)=>console.log('item', item)}
+                      // onPress = {(item: any, index: any)=>console.log('item', item)}
                       rulesColor={`${mode ? paletteColors.backgroundLight : 'lightgray'}`}
                   />
               </View>

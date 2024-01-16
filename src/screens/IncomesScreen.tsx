@@ -13,6 +13,7 @@ import { useFormik, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
+import { useNavigation } from '@react-navigation/native';
 
 const categoryIcons: any = {
   nomina: 'file-invoice-dollar',
@@ -22,7 +23,9 @@ const categoryIcons: any = {
 
 export default function IncomesScreen() {
 
+  const navigation = useNavigation();
   const { mode } = useSelector((state: RootState) => state.themeReducer);
+  // const { access_token } = useSelector((state: RootState) => state.user);
 
   //////////////////////////////////////////////////////////////////////
 
@@ -203,14 +206,8 @@ export default function IncomesScreen() {
   const onSubmitSearch = (nameSearched: string) => {
     let newIncomesSearched: incomesType = {incomes: []}
     let incomesFiltered = incomesArray.incomes.filter((item) => item.name.toLowerCase().includes(nameSearched.toLowerCase()));
-
-    
-    
     newIncomesSearched.incomes = incomesFiltered;
-    console.log(incomesFiltered);
-
     setIncomesSearchedArray(newIncomesSearched);
-    // console.log('Enter presionado. Realizar búsqueda u otras acciones aquí.');
   };
 
   return (
@@ -232,25 +229,24 @@ export default function IncomesScreen() {
       <ScrollView style={styles.scrollList}>
         {
           incomesSearchedArray.incomes.length > 0 ?
-
-            incomesSearchedArray.incomes.map((item, i) => (
-              <View style={styles.incomeContainer} key={i + 1}>
-                <View style={styles.dateContainer}>
-                  <Text style={styles.dateText}>{`Fecha: ${item.date}`}</Text>
-                </View>
-                <View style={styles.infoPriceContainer}>
-                  <View style={styles.incomeInfoContantainer}>
-                    <Text style={styles.incomeName}>{item.name}</Text>
-                    <Text style={styles.incomeText}>{item.description}</Text>
+              incomesSearchedArray.incomes.map((item, i) => (
+                <View style={styles.incomeContainer} key={i + 1}>
+                  <View style={styles.dateContainer}>
+                    <Text style={styles.dateText}>{`Fecha: ${item.date}`}</Text>
                   </View>
-                  <View style={styles.incomePriceContainer}>
-                    <Text style= {styles.incomePrice}>{`${numberFormat(item.price)}`}</Text>
-                    <Icon style={styles.incomeIcon} name={categoryIcons[item.category]} size={35} color={mode ? paletteColors.lime : paletteColors.limeLight}/>
+                  <View style={styles.infoPriceContainer}>
+                    <View style={styles.incomeInfoContantainer}>
+                      <Text style={styles.incomeName}>{item.name}</Text>
+                      <Text style={styles.incomeText}>{item.description}</Text>
+                    </View>
+                    <View style={styles.incomePriceContainer}>
+                      <Text style= {styles.incomePrice}>{`${numberFormat(item.price)}`}</Text>
+                      <Icon style={styles.incomeIcon} name={categoryIcons[item.category]} size={35} color={mode ? paletteColors.lime : paletteColors.limeLight}/>
+                    </View>
                   </View>
                 </View>
-              </View>
-            ))
-
+              ))
+              
           :
 
             incomesArray.incomes.map((item, i) => (
@@ -271,13 +267,15 @@ export default function IncomesScreen() {
               </View>
             ))
         }
+        {/* <Text>{access_token}</Text> */}
       </ScrollView>
       <View style={styles.btnAdd}>
         <IconButton
           icon="plus"
           iconColor={paletteColors.white}
           size={40}
-          onPress={() => setModalVisible(true)}
+          // onPress={() => setModalVisible(true)}
+          onPress={() => navigation.navigate('AddIncome')}
         />
       </View>
       <Modal

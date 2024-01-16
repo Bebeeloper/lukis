@@ -15,7 +15,7 @@ export default function LoginScreen() {
 
   const navigation = useNavigation();
   const { mode } = useSelector((state: RootState) => state.themeReducer);
-  const { loadingLogin } = useSelector((state: RootState) => state.user);
+  const { loadingLogin, access_token } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState<string>('');
@@ -36,20 +36,19 @@ export default function LoginScreen() {
 
   const getLoginResponse = async () => {    
     try {
-      
       let body: User = {
-        // username: 'mor_2314', 
-        // password: '83r5^_'
-        username: email.toLowerCase(), 
+        email: email.toLowerCase(), 
         password: password
       }
       const result = await dispatch(loginPost(body) as any);
-      dispatch(signIn());
       
-      navigation.navigate('Home');
+      if (result.payload.access_token) {
+        dispatch(signIn());
+        navigation.navigate('Home');
+      }
       
     } catch (error) {
-      console.log(error);
+      console.log('Usuario o contraseña incorrecto...');
     }
   }
 

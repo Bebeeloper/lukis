@@ -1,10 +1,10 @@
 export interface User {
-    username: string,
+    email: string,
     password: string,
 }
 
 export interface userState {
     loadingLogin: boolean,
-    token: string,
+    access_token: string,
     errorLogin: string | undefined
 }
