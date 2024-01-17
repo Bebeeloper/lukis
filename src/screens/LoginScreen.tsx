@@ -1,4 +1,4 @@
-import { Text, TextInput, Image, KeyboardAvoidingView, Platform, TouchableOpacity, View,StyleSheet} from 'react-native'
+import { Text, TextInput, Image, KeyboardAvoidingView, Platform, TouchableOpacity, View,StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import React, { useState } from 'react'
 import { paletteColors } from '../colors/PaletteColors'
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -54,72 +54,74 @@ export default function LoginScreen() {
 
   const styles = getStylesLogin(mode);
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardAvoiding}
-      >
-        <Image 
-          style={styles.keyboardAvoiding.Image}
-          source={require('../../assets/images/Logo-Lukis-AmaticSC.png')}
-        />
-        <Text style={styles.keyboardAvoiding.title}>LOGIN</Text>
-        <TextInput
-          style={styles.keyboardAvoiding.inputLogin}
-          inputMode='email'
-          keyboardType='default'
-          value={email}
-          onChange={(event) => onChangeEmail(event.nativeEvent.text)}
-          placeholder='Email'
-          placeholderTextColor={mode ? paletteColors.light : paletteColors.light}
-        />
-        <View style={styles.keyboardAvoiding.passwordContainer}>
-          <TextInput
-            style={styles.keyboardAvoiding.passwordContainer.inputPassword}
-            inputMode='text'
-            secureTextEntry={!isPasswordVisible}
-            value={password}
-            onChangeText={(text) => onChangePassword(text)}
-            placeholder='Password'
-            placeholderTextColor={mode ? paletteColors.light : paletteColors.light}
-            // clearTextOnFocus={false}
-          />
-          <TouchableOpacity
-            style={styles.keyboardAvoiding.passwordContainer.touchableOpacity}
-            onPress={togglePasswordVisibility}
-          >
-            <Icon name={isPasswordVisible ? 'eye' : 'eye-slash'} color={mode ? paletteColors.purpleLight : paletteColors.purple} size={25}/>
-            {/* <FontAwesomeIcon icon="far fa-eye-slash" /> */}
-          </TouchableOpacity>
-        </View>
-        <Button 
-          style={styles.keyboardAvoiding.loginButton}
-          buttonColor={mode ? paletteColors.purpleLight : paletteColors.purple} 
-          // loading={true}
-          // icon="login"
-          icon={({ size, color }) => (
-            <Icon name="sign-in-alt" size={30} color={paletteColors.white} />
-          )}
-          mode="contained" 
-          onPress={() => getLoginResponse()}
-          labelStyle={styles.keyboardAvoiding.loginButton.label}
-          // loading={loadingLogin}
-          loading={loadingLogin}
-          // contentStyle={{justifyContent: 'center', alignItems: 'center'}}
-          
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <SafeAreaView style={styles.safeArea}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.keyboardAvoiding}
         >
-          Login
-        </Button>
-        <View style={styles.keyboardAvoiding.createAccountContainer}>
-          <Text style={styles.keyboardAvoiding.createAccountContainer.question}>
-            ¿No tenés cuenta ve? 
-          </Text>
-          <Text style={styles.keyboardAvoiding.createAccountContainer.goCreate}>
-            ¡Creála ome!
-          </Text>
-        </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+          <Image 
+            style={styles.keyboardAvoiding.Image}
+            source={require('../../assets/images/Logo-Lukis-AmaticSC.png')}
+          />
+          <Text style={styles.keyboardAvoiding.title}>LOGIN</Text>
+          <TextInput
+            style={styles.keyboardAvoiding.inputLogin}
+            inputMode='email'
+            keyboardType='default'
+            value={email}
+            onChange={(event) => onChangeEmail(event.nativeEvent.text)}
+            placeholder='Email'
+            placeholderTextColor={mode ? paletteColors.light : paletteColors.light}
+          />
+          <View style={styles.keyboardAvoiding.passwordContainer}>
+            <TextInput
+              style={styles.keyboardAvoiding.passwordContainer.inputPassword}
+              inputMode='text'
+              secureTextEntry={!isPasswordVisible}
+              value={password}
+              onChangeText={(text) => onChangePassword(text)}
+              placeholder='Password'
+              placeholderTextColor={mode ? paletteColors.light : paletteColors.light}
+              // clearTextOnFocus={false}
+            />
+            <TouchableOpacity
+              style={styles.keyboardAvoiding.passwordContainer.touchableOpacity}
+              onPress={togglePasswordVisibility}
+            >
+              <Icon name={isPasswordVisible ? 'eye' : 'eye-slash'} color={mode ? paletteColors.purpleLight : paletteColors.purple} size={25}/>
+              {/* <FontAwesomeIcon icon="far fa-eye-slash" /> */}
+            </TouchableOpacity>
+          </View>
+          <Button 
+            style={styles.keyboardAvoiding.loginButton}
+            buttonColor={mode ? paletteColors.purpleLight : paletteColors.purple} 
+            // loading={true}
+            // icon="login"
+            icon={({ size, color }) => (
+              <Icon name="sign-in-alt" size={30} color={paletteColors.white} />
+            )}
+            mode="contained" 
+            onPress={() => getLoginResponse()}
+            labelStyle={styles.keyboardAvoiding.loginButton.label}
+            // loading={loadingLogin}
+            loading={loadingLogin}
+            // contentStyle={{justifyContent: 'center', alignItems: 'center'}}
+            
+          >
+            Login
+          </Button>
+          <View style={styles.keyboardAvoiding.createAccountContainer}>
+            <Text style={styles.keyboardAvoiding.createAccountContainer.question}>
+              ¿No tenés cuenta ve? 
+            </Text>
+            <Text style={styles.keyboardAvoiding.createAccountContainer.goCreate}>
+              ¡Creála ome!
+            </Text>
+          </View>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   )
 }
 

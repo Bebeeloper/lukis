@@ -61,7 +61,7 @@ export default function IncomesNavigation() {
             name='AddIncome'
             component={AddIncomeScreen}
             options={{
-              title: 'Añadir ingreso',
+              title: numberFormat(totalMoney),
               headerTintColor: paletteColors.white,
               headerStyle: {
                 backgroundColor: !mode ? paletteColors.limeLight : paletteColors.limeDark
