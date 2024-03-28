@@ -67,7 +67,7 @@ export default function IncomesNavigation() {
                 backgroundColor: !mode ? paletteColors.limeLight : paletteColors.limeDark
               },
               headerTitleStyle: {
-               fontFamily: 'Poppins_700Bold'
+                fontFamily: 'Poppins_700Bold'
               },
               headerRight: () => (
                 <IconButton
@@ -77,7 +77,7 @@ export default function IncomesNavigation() {
                   // onPress={}
                 />
               ),
-          }}
+            }}
         />
     </Stack.Navigator>
   )
